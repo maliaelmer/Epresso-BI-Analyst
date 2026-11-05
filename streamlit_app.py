@@ -165,12 +165,135 @@ with tab_data:
                 st.write("Data types")
                 st.dataframe(profile["dtypes"], use_container_width=True)
 
+
 with tab_dash:
-    st.header("E-Presso Dashboard")
-    st.info(
-        "Next step: build revenue KPIs, interactive filters, "
-        "and charts using the five loaded tables."
-    )
+    st.header("E-Presso Revenue Dashboard")
+
+    try:
+        sales_data, merge_reports = analytics.prepare_sales_data(
+            tables["sales"],
+            tables["stores"],
+            tables["products"],
+            tables["categories"],
+        )
+
+        # Interactive filters
+        st.subheader("Filters")
+
+        col1, col2, col3 = st.columns(3)
+
+        years = sorted(sales_data["Year"].dropna().unique())
+        categories = sorted(sales_data["Category"].dropna().unique())
+        store_types = sorted(sales_data["StoreType"].dropna().unique())
+
+        with col1:
+            selected_years = st.multiselect(
+                "Year",
+                years,
+                default=years,
+            )
+
+        with col2:
+            selected_categories = st.multiselect(
+                "Category",
+                categories,
+                default=categories,
+            )
+
+        with col3:
+            selected_store_types = st.multiselect(
+                "Store type",
+                store_types,
+                default=store_types,
+            )
+
+        filtered = sales_data[
+            sales_data["Year"].isin(selected_years)
+            & sales_data["Category"].isin(selected_categories)
+            & sales_data["StoreType"].isin(selected_store_types)
+        ].copy()
+
+        # Key performance indicators
+        st.subheader("Key performance indicators")
+
+        total_revenue = filtered["Revenue"].sum()
+        sales_records = len(filtered)
+        average_revenue = (
+            total_revenue / sales_records if sales_records else 0
+        )
+
+        c1, c2, c3 = st.columns(3)
+
+        c1.metric(
+            "Total revenue",
+            f"${total_revenue:,.0f}",
+        )
+        c2.metric(
+            "Sales records",
+            f"{sales_records:,}",
+        )
+        c3.metric(
+            "Average revenue per record",
+            f"${average_revenue:,.2f}",
+        )
+
+        if filtered.empty:
+            st.warning("No sales records match the selected filters.")
+        else:
+            # Revenue by year
+            st.subheader("Revenue by year")
+
+            yearly = (
+                filtered.groupby("Year")["Revenue"]
+                .sum()
+                .sort_index()
+            )
+            st.bar_chart(yearly)
+
+            # Revenue by store type
+            st.subheader("Revenue by store type")
+
+            by_store = (
+                filtered.groupby("StoreType")["Revenue"]
+                .sum()
+                .sort_values(ascending=False)
+            )
+            st.bar_chart(by_store)
+
+            # Monthly revenue trend
+            st.subheader("Monthly revenue trend")
+
+            monthly_data = filtered.copy()
+            monthly_data["Year-Month"] = (
+                monthly_data["Date"].dt.to_period("M").astype(str)
+            )
+
+            monthly = (
+                monthly_data.groupby("Year-Month")["Revenue"]
+                .sum()
+                .sort_index()
+            )
+            st.line_chart(monthly)
+
+            # Revenue by category
+            st.subheader("Revenue by category")
+
+            by_category = (
+                filtered.groupby("Category")["Revenue"]
+                .sum()
+                .sort_values(ascending=False)
+            )
+            st.bar_chart(by_category)
+
+        # Show evidence that joins did not change revenue
+        with st.expander("Data relationship and merge checks"):
+            for table_name, report in merge_reports.items():
+                st.write(f"**{table_name}**")
+                st.json(report)
+
+    except Exception as exc:
+        st.error(f"Could not build the dashboard: {exc}")
+
 
 with tab_assistant:
     st.header("Analytical Assistant")

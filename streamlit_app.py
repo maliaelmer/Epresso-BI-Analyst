@@ -311,6 +311,13 @@ with tab_survey:
         sales_data.groupby(["Store ID", "Year"], as_index=False)
         ["Revenue"].sum()
     )
+survey_data["Year"] = pd.to_numeric(
+    survey_data["Year"], errors="coerce"
+).astype("Int64")
+
+revenue_by_store_year["Year"] = pd.to_numeric(
+    revenue_by_store_year["Year"], errors="coerce"
+).astype("Int64")
 
     # Connect survey results with store information
     survey_data = survey_data.merge(

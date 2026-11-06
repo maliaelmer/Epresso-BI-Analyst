@@ -121,8 +121,8 @@ if missing:
 
 st.success("All five E-Presso tables have been loaded successfully.")
 
-tab_data, tab_dash, tab_assistant = st.tabs(
-    ["Data and profile", "Dashboard", "Assistant"]
+tab_data, tab_dash, tab_survey, tab_assistant = st.tabs(
+    ["Data and profile", "Dashboard", "Survey Analysis", "Assistant"]
 )
 
 with tab_data:

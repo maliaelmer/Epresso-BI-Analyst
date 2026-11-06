@@ -325,8 +325,7 @@ with tab_survey:
         right_on="ID",
         how="left"
     )
-st.write("Survey years:", sorted(survey_data["Year"].dropna().unique().tolist()))
-st.write("Revenue years:", sorted(revenue_by_store_year["Year"].dropna().unique().tolist()))
+
     survey_data = survey_data.merge(
         revenue_by_store_year,
         on=["Store ID", "Year"],

@@ -297,12 +297,71 @@ with tab_dash:
 with tab_survey:
     st.header("E-Presso Survey Analysis")
 
-    st.subheader("Survey Results by Store")
-
     survey_data = tables["survey"].copy()
 
+    # Prepare revenue by store and year
+    sales_data, merge_reports = analytics.prepare_sales_data(
+        tables["sales"],
+        tables["stores"],
+        tables["products"],
+        tables["categories"],
+    )
+
+    revenue_by_store_year = (
+        sales_data.groupby(["Store ID", "Year"], as_index=False)
+        ["Revenue"].sum()
+    )
+
+    # Connect survey results with store information
+    survey_data = survey_data.merge(
+        tables["stores"],
+        left_on="Store ID",
+        right_on="ID",
+        how="left"
+    )
+
+    survey_data = survey_data.merge(
+        revenue_by_store_year,
+        on=["Store ID", "Year"],
+        how="left"
+    )
+
+    # Customer satisfaction chart
+    st.subheader("Customer Satisfaction and Revenue by Location")
+
+    location_analysis = (
+        survey_data.groupby("Location", as_index=False)
+        .agg(
+            Average_Satisfaction=("Satisfaction", "mean"),
+            Revenue=("Revenue", "sum")
+        )
+        .dropna(subset=["Average_Satisfaction"])
+    )
+
+    if not location_analysis.empty:
+        st.scatter_chart(
+            location_analysis,
+            x="Average_Satisfaction",
+            y="Revenue",
+            color="Location"
+        )
+    else:
+        st.info("No customer satisfaction data is available.")
+
+    # Survey table
+    st.subheader("Survey Results by Location")
+
+    display_columns = [
+        "Survey ID",
+        "City",
+        "Location",
+        "Market",
+        "StoreType",
+        "Revenue",
+    ]
+
     st.dataframe(
-        survey_data,
+        survey_data[display_columns],
         use_container_width=True,
         hide_index=True
     )

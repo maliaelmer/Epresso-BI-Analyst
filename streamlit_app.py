@@ -294,7 +294,18 @@ with tab_dash:
     except Exception as exc:
         st.error(f"Could not build the dashboard: {exc}")
 
+with tab_survey:
+    st.header("E-Presso Survey Analysis")
 
+    st.subheader("Survey Results by Store")
+
+    survey_data = tables["survey"].copy()
+
+    st.dataframe(
+        survey_data,
+        use_container_width=True,
+        hide_index=True
+    )
 with tab_assistant:
     st.header("Analytical Assistant")
     st.caption(

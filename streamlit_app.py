@@ -357,6 +357,7 @@ with tab_survey:
 
     display_columns = [
         "Survey ID",
+        "Year",
         "City",
         "Location",
         "Market",

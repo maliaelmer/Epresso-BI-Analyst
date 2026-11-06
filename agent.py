@@ -68,6 +68,12 @@ def rules_router(question: str, df):
             'group_col': 'Year',
             'filters': {}
         }
+        if any(w in q for w in ('store type', 'by store type', 'per store type')):
+    return 'group_total', {
+        'value_col': 'Revenue',
+        'group_col': 'StoreType',
+        'filters': {}
+    }
 
     if any(w in q for w in ('revenue', 'sales', 'total', 'sum')):
         return 'get_total', {

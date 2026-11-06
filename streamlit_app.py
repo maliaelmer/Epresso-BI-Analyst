@@ -412,11 +412,18 @@ with tab_assistant:
         else:
             st.session_state["n_questions"] += 1
 
-            answer = agent.answer_question(
-                question,
-                tables["sales"],
-                mode="rules",
-            )
+assistant_sales, _ = analytics.prepare_sales_data(
+    tables["sales"],
+    tables["stores"],
+    tables["products"],
+    tables["categories"],
+)
+
+answer = agent.answer_question(
+    question,
+    assistant_sales,
+    mode="rules",
+)
 
             st.session_state["history"].append({
                 "question": question,

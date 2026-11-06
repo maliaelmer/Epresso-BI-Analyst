@@ -62,6 +62,13 @@ def rules_router(question: str, df):
     if any(w in q for w in ('missing', 'duplicate', 'quality', 'blank')):
         return 'data_quality_report', {}
 
+    if any(w in q for w in ('by year', 'per year', 'annual', 'yearly')):
+        return 'group_total', {
+            'value_col': 'Revenue',
+            'group_col': 'Year',
+            'filters': {}
+        }
+
     if any(w in q for w in ('revenue', 'sales', 'total', 'sum')):
         return 'get_total', {
             'value_col': 'Revenue',

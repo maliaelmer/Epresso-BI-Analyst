@@ -312,8 +312,9 @@ with tab_survey:
     )
 
     survey_data["Year"] = pd.to_numeric(
-        survey_data["Year"], errors="coerce"
-    ).astype("Int64")
+    survey_data["Year"].astype(str).str.replace("Y", "", regex=False),
+    errors="coerce"
+).astype("Int64")
 
     revenue_by_store_year["Year"] = pd.to_numeric(
         revenue_by_store_year["Year"], errors="coerce"

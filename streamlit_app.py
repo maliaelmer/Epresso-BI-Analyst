@@ -299,7 +299,6 @@ with tab_survey:
 
     survey_data = tables["survey"].copy()
 
-    # Prepare revenue by store and year
     sales_data, merge_reports = analytics.prepare_sales_data(
         tables["sales"],
         tables["stores"],
@@ -311,15 +310,15 @@ with tab_survey:
         sales_data.groupby(["Store ID", "Year"], as_index=False)
         ["Revenue"].sum()
     )
-survey_data["Year"] = pd.to_numeric(
-    survey_data["Year"], errors="coerce"
-).astype("Int64")
 
-revenue_by_store_year["Year"] = pd.to_numeric(
-    revenue_by_store_year["Year"], errors="coerce"
-).astype("Int64")
+    survey_data["Year"] = pd.to_numeric(
+        survey_data["Year"], errors="coerce"
+    ).astype("Int64")
 
-    # Connect survey results with store information
+    revenue_by_store_year["Year"] = pd.to_numeric(
+        revenue_by_store_year["Year"], errors="coerce"
+    ).astype("Int64")
+
     survey_data = survey_data.merge(
         tables["stores"],
         left_on="Store ID",
@@ -333,7 +332,6 @@ revenue_by_store_year["Year"] = pd.to_numeric(
         how="left"
     )
 
-    # Customer satisfaction chart
     st.subheader("Customer Satisfaction and Revenue by Location")
 
     location_analysis = (
@@ -355,7 +353,6 @@ revenue_by_store_year["Year"] = pd.to_numeric(
     else:
         st.info("No customer satisfaction data is available.")
 
-    # Survey table
     st.subheader("Survey Results by Location")
 
     display_columns = [

@@ -56,11 +56,18 @@ def run_tool(name: str, args: dict, df, log: list) -> ToolResult:
 
 
 def rules_router(question: str, df):
-    """Option B router. TODO: add rules for the tools YOU build.
-    Returns (tool_name, arguments) or None if the question is unsupported."""
+    """Choose an approved analytical tool based on the question."""
     q = question.lower()
+
     if any(w in q for w in ('missing', 'duplicate', 'quality', 'blank')):
         return 'data_quality_report', {}
+
+    if any(w in q for w in ('revenue', 'sales', 'total', 'sum')):
+        return 'get_total', {
+            'value_col': 'Revenue',
+            'filters': {}
+        }
+
     return None
 
 

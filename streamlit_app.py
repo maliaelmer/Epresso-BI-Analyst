@@ -393,18 +393,15 @@ with tab_survey:
         hide_index=True
     )
 with tab_assistant:
-    st.header("Analytical Assistant")
-    st.caption(
-        "Rules-based starter. At this stage, s are checked "
-        "against the Sales table."
-    )
+    st.subheader("Ask the E-Presso BI Analyst")
+    st.caption("Ask questions about revenue, store types, categories, and data quality.")
 
-    st.session_state.setdefault("n_s", 0)
+    st.session_state.setdefault("n_questions", 0)
     st.session_state.setdefault("history", [])
 
     for item in st.session_state["history"]:
         with st.chat_message("user"):
-            st.write(item[""])
+            st.write(item["question"])
 
         with st.chat_message("assistant"):
             answer = item["answer"]
@@ -419,7 +416,7 @@ with tab_assistant:
             if answer["next_steps"]:
                 st.markdown(f"**Next steps:** {answer['next_steps']}")
 
-         with st.expander("Tool-call log"):
+            with st.expander("Tool-call log"):
                 st.json(answer["tool_log"])
 
     question = st.chat_input("Ask a question about E-Presso sales")

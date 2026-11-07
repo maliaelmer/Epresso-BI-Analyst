@@ -395,16 +395,16 @@ with tab_survey:
 with tab_assistant:
     st.header("Analytical Assistant")
     st.caption(
-        "Rules-based starter. At this stage, questions are checked "
+        "Rules-based starter. At this stage, s are checked "
         "against the Sales table."
     )
 
-    st.session_state.setdefault("n_questions", 0)
+    st.session_state.setdefault("n_s", 0)
     st.session_state.setdefault("history", [])
 
     for item in st.session_state["history"]:
         with st.chat_message("user"):
-            st.write(item["question"])
+            st.write(item[""])
 
         with st.chat_message("assistant"):
             answer = item["answer"]
@@ -421,9 +421,11 @@ with tab_assistant:
 
             with st.expander("Tool-call log"):
                 st.json(answer["tool_log"])
-st.caption(
+                
+ st.caption(
         f"Questions used: {st.session_state['n_questions']} / {MAX_QUESTIONS}"
     )
+
     question = st.chat_input("Ask a question about E-Presso sales")
 
     if question:

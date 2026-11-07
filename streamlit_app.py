@@ -398,6 +398,7 @@ with tab_assistant:
 
     st.session_state.setdefault("n_questions", 0)
     st.session_state.setdefault("history", [])
+    st.caption(f"Questions used: {st.session_state['n_questions']} / {MAX_QUESTIONS}")
 
     for item in st.session_state["history"]:
         with st.chat_message("user"):

@@ -75,8 +75,8 @@ def rules_router(question: str, df):
             'group_col': 'StoreType',
             'filters': {}
         }
-        
-         if any(w in q for w in ('category', 'categories', 'by product category')):
+
+    if any(w in q for w in ('category', 'categories', 'by product category')):
         return 'group_total', {
             'value_col': 'Revenue',
             'group_col': 'Category',
@@ -90,7 +90,6 @@ def rules_router(question: str, df):
         }
 
     return None
-
 
 def llm_router(question: str, df):
     """Option A router. TODO: after the rules-based version works, ask a model that

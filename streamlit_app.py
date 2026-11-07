@@ -286,7 +286,7 @@ with tab_dash:
                 "September", "October", "November", "December"
             ]
 
-                      monthly["Month label"] = (
+            monthly["Month label"] = (
                 monthly["Month"].astype(str).str.zfill(2)
                 + " - "
                 + monthly["Month name"]

@@ -260,20 +260,32 @@ with tab_dash:
             )
             st.bar_chart(by_store)
 
-            # Monthly revenue trend
-            st.subheader("Monthly revenue trend")
+           
+            # Percentage of revenue by month
+            st.subheader("Percentage of annual revenue by month")
 
             monthly_data = filtered.copy()
-            monthly_data["Year-Month"] = (
-                monthly_data["Date"].dt.to_period("M").astype(str)
-            )
+            monthly_data["Month"] = monthly_data["Date"].dt.month
+            monthly_data["Month name"] = monthly_data["Date"].dt.month_name()
 
             monthly = (
-                monthly_data.groupby("Year-Month")["Revenue"]
+                monthly_data.groupby(["Month", "Month name"])["Revenue"]
                 .sum()
-                .sort_index()
+                .reset_index()
+                .sort_values("Month")
             )
-            st.line_chart(monthly)
+
+            total_revenue = monthly["Revenue"].sum()
+            monthly["Revenue percentage"] = (
+                monthly["Revenue"] / total_revenue * 100
+            )
+
+            monthly_chart = monthly.set_index("Month name")[
+                "Revenue percentage"
+            ]
+
+            st.bar_chart(monthly_chart)
+
 
             # Revenue by category
             st.subheader("Revenue by category")

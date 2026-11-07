@@ -8,7 +8,7 @@ import streamlit as st
 import agent
 import analytics
 
-MAX_QUESTIONS = 15
+MAX_QUESTIONS = 2
 
 st.set_page_config(page_title="E-Presso BI Analyst", layout="wide")
 st.title("E-Presso BI Analyst")

@@ -419,14 +419,11 @@ with tab_assistant:
             if answer["next_steps"]:
                 st.markdown(f"**Next steps:** {answer['next_steps']}")
 
-            with st.expander("Tool-call log"):
+         with st.expander("Tool-call log"):
                 st.json(answer["tool_log"])
-                
- st.caption(
-        f"Questions used: {st.session_state['n_questions']} / {MAX_QUESTIONS}"
-    )
 
- question = st.chat_input("Ask a question about E-Presso sales")
+    question = st.chat_input("Ask a question about E-Presso sales")
+
     if question:
         if st.session_state["n_questions"] >= MAX_QUESTIONS:
             st.warning(

@@ -286,10 +286,13 @@ with tab_dash:
                 "September", "October", "November", "December"
             ]
 
-            monthly_chart = (
-                monthly.set_index("Month name")["Revenue percentage"]
-                .reindex(month_order)
-            )
+           monthly["Month label"] = (
+    monthly["Month"].astype(str).str.zfill(2)
+    + " - "
+    + monthly["Month name"]
+)
+
+monthly_chart = monthly.set_index("Month label")["Revenue percentage"]
 
             st.bar_chart(monthly_chart)
 

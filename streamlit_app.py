@@ -280,12 +280,18 @@ with tab_dash:
                 monthly["Revenue"] / total_revenue * 100
             )
 
-            monthly_chart = monthly.set_index("Month name")[
-                "Revenue percentage"
-            ]
+           month_order = [
+    "January", "February", "March", "April",
+    "May", "June", "July", "August",
+    "September", "October", "November", "December"
+]
 
-            st.bar_chart(monthly_chart)
+monthly_chart = (
+    monthly.set_index("Month name")["Revenue percentage"]
+    .reindex(month_order)
+)
 
+st.bar_chart(monthly_chart)
 
             # Revenue by category
             st.subheader("Revenue by category")

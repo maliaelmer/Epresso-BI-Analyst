@@ -387,7 +387,7 @@ with tab_dash:
 
         if filtered.empty:
             st.warning("No sales records match the selected filters.")
-               else:
+        else:
             # Revenue by year
             st.subheader("Revenue by year")
 

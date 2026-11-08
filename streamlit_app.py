@@ -286,8 +286,11 @@ with tab_data:
             "Duplicate rows": int(df.duplicated().sum()),
         })
 
-    st.dataframe(
-    survey_data[display_columns].rename(columns={
+        st.dataframe(
+        pd.DataFrame(overview),
+        use_container_width=True,
+        hide_index=True
+    )
         "StoreType": "Store Type"
     }),
     column_config={

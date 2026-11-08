@@ -83,6 +83,16 @@ st.markdown("""
         border: 1px solid #E7DCCB;
         border-radius: 10px;
     }
+    /* Filter selection tags */
+[data-baseweb="tag"] {
+    background-color: #8B5E3C !important;
+    color: white !important;
+    border-color: #8B5E3C !important;
+}
+
+[data-baseweb="tag"] * {
+    color: white !important;
+}
 </style>
 """, unsafe_allow_html=True)
 st.markdown("""

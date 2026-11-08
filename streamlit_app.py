@@ -535,7 +535,7 @@ with tab_survey:
         .dropna(subset=["Average_Satisfaction"])
     )
 
-   if not location_analysis.empty:
+    if not location_analysis.empty:
     survey_chart = alt.Chart(location_analysis).mark_circle(
         size=130,
         opacity=0.85,
@@ -568,7 +568,7 @@ with tab_survey:
     ).properties(height=350)
 
     st.altair_chart(survey_chart, use_container_width=True)
-  else:
+    else:
     st.info("No customer satisfaction data is available.")
     
     st.subheader("Survey Results by Location")

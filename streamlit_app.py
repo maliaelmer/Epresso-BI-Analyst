@@ -287,10 +287,22 @@ with tab_data:
         })
 
     st.dataframe(
-        pd.DataFrame(overview),
-        use_container_width=True,
-        hide_index=True,
-    )
+    survey_data[display_columns].rename(columns={
+        "StoreType": "Store Type"
+    }),
+    column_config={
+        "Revenue": st.column_config.NumberColumn(
+            "Revenue",
+            format="$%,.0f"
+        ),
+        "Year": st.column_config.NumberColumn(
+            "Year",
+            format="%d"
+        )
+    },
+    use_container_width=True,
+    hide_index=True
+)
 
     st.divider()
     st.header("Individual table profiles")

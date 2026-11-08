@@ -12,6 +12,79 @@ import analytics
 MAX_QUESTIONS = 15
 
 st.set_page_config(page_title="E-Presso BI Analyst", layout="wide")
+st.markdown("""
+<style>
+    /* Main background and typography */
+    .stApp {
+        background-color: #F7F4EE;
+        color: #30251F;
+    }
+
+    h1, h2, h3 {
+        color: #38271F !important;
+        font-family: Georgia, serif;
+    }
+
+    p, label, .stMarkdown {
+        color: #51443B;
+    }
+
+    /* Sidebar */
+    [data-testid="stSidebar"] {
+        background-color: #30251F;
+    }
+
+    [data-testid="stSidebar"] * {
+        color: #F7F4EE !important;
+    }
+
+    /* Metric cards */
+    [data-testid="stMetric"] {
+        background-color: #FFFFFF;
+        border: 1px solid #E7DCCB;
+        padding: 18px;
+        border-radius: 12px;
+    }
+
+    [data-testid="stMetricLabel"] {
+        color: #806B5B !important;
+    }
+
+    [data-testid="stMetricValue"] {
+        color: #38271F !important;
+    }
+
+    /* Buttons */
+    .stButton > button {
+        background-color: #8B5E3C;
+        color: white;
+        border: none;
+        border-radius: 8px;
+    }
+
+    .stButton > button:hover {
+        background-color: #68432D;
+        color: white;
+        border: none;
+    }
+
+    /* Tabs */
+    button[data-baseweb="tab"] {
+        color: #68432D;
+    }
+
+    button[data-baseweb="tab"][aria-selected="true"] {
+        color: #A66B3F;
+        border-bottom-color: #A66B3F;
+    }
+
+    /* Data tables */
+    [data-testid="stDataFrame"] {
+        border: 1px solid #E7DCCB;
+        border-radius: 10px;
+    }
+</style>
+""", unsafe_allow_html=True)
 st.title("E-Presso BI Analyst")
 st.caption(
     "Explore E-Presso sales, stores, products, categories, "

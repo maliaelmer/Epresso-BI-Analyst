@@ -367,7 +367,7 @@ with tab_dash:
                 .sum()
                 .sort_index()
             )
-           st.bar_chart(yearly, color="#8B5E3C")
+            st.bar_chart(yearly, color="#8B5E3C")
 
             # Revenue by store type
             st.subheader("Revenue by store type")

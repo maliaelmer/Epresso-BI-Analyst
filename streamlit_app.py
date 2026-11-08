@@ -85,7 +85,20 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
-st.title("E-Presso BI Analyst")
+st.markdown("""
+<div style="padding: 24px 0 18px 0;">
+    <div style="font-size: 13px; letter-spacing: 4px;
+                color: #A66B3F; font-weight: 700;">
+        E-PRESSO  /  BUSINESS INTELLIGENCE
+    </div>
+    <h1 style="font-size: 42px; margin: 8px 0 4px 0;">
+        Coffee. Data. Decisions.
+    </h1>
+    <p style="font-size: 16px; color: #806B5B;">
+        Your intelligent workspace for understanding E-Presso's business.
+    </p>
+</div>
+""", unsafe_allow_html=True)
 st.caption(
     "Explore E-Presso sales, stores, products, categories, "
     "and customer survey results."

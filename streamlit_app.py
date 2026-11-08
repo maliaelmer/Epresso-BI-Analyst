@@ -535,16 +535,42 @@ with tab_survey:
         .dropna(subset=["Average_Satisfaction"])
     )
 
-    if not location_analysis.empty:
-        st.scatter_chart(
-            location_analysis,
-            x="Average_Satisfaction",
-            y="Revenue",
-            color="Location"
-        )
-    else:
-        st.info("No customer satisfaction data is available.")
+   if not location_analysis.empty:
+    survey_chart = alt.Chart(location_analysis).mark_circle(
+        size=130,
+        opacity=0.85,
+        stroke="white",
+        strokeWidth=1
+    ).encode(
+        x=alt.X(
+            "Average_Satisfaction:Q",
+            title="Customer satisfaction (0–5)",
+            scale=alt.Scale(domain=[0, 5])
+        ),
+        y=alt.Y(
+            "Revenue:Q",
+            title="Revenue ($)",
+            scale=alt.Scale(domainMin=0),
+            axis=alt.Axis(format="$,.0f")
+        ),
+        color=alt.Color(
+            "Location:N",
+            title="Location",
+            scale=alt.Scale(
+                range=["#789080", "#D5A66F", "#C77B61", "#6F91A6", "#9A86A8"]
+            )
+        ),
+        tooltip=[
+            alt.Tooltip("Location:N", title="Location"),
+            alt.Tooltip("Average_Satisfaction:Q", title="Satisfaction", format=".2f"),
+            alt.Tooltip("Revenue:Q", title="Revenue", format="$,.0f")
+        ]
+    ).properties(height=350)
 
+    st.altair_chart(survey_chart, use_container_width=True)
+  else:
+    st.info("No customer satisfaction data is available.")
+    
     st.subheader("Survey Results by Location")
 
     display_columns = [

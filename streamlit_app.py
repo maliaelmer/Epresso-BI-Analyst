@@ -72,7 +72,7 @@ DEFAULT_FILES = {
 def load_default_table(filename, table_type):
     url = (
         "https://raw.githubusercontent.com/"
-        "maliaelmer/Espresso-BI-Analyst/main/data/"
+        "maliaelmer/Epresso-BI-Analyst/main/data/"
         + filename
     )
     with urlopen(url) as response:

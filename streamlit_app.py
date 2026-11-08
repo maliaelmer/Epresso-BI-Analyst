@@ -93,6 +93,24 @@ st.markdown("""
 [data-baseweb="tag"] * {
     color: white !important;
 }
+/* Sidebar upload area */
+[data-testid="stSidebar"] [data-testid="stFileUploader"] {
+    background-color: #49372D;
+    border: 1px solid #806B5B;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+[data-testid="stSidebar"] [data-testid="stFileUploader"] section {
+    background-color: #49372D;
+}
+
+[data-testid="stSidebar"] [data-testid="stFileUploader"] button {
+    background-color: #B98255;
+    color: white;
+    border: none;
+}
+
 </style>
 """, unsafe_allow_html=True)
 st.markdown("""

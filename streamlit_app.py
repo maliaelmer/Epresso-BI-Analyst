@@ -286,30 +286,15 @@ with tab_data:
             "Duplicate rows": int(df.duplicated().sum()),
         })
 
-        st.dataframe(
+    st.dataframe(
         pd.DataFrame(overview),
         use_container_width=True,
         hide_index=True
     )
-        "StoreType": "Store Type"
-    }),
-    column_config={
-        "Revenue": st.column_config.NumberColumn(
-            "Revenue",
-            format="$%,.0f"
-        ),
-        "Year": st.column_config.NumberColumn(
-            "Year",
-            format="%d"
-        )
-    },
-    use_container_width=True,
-    hide_index=True
-)
 
     st.divider()
     st.header("Individual table profiles")
-
+    
     for key, title in TABLE_NAMES.items():
         df = tables[key]
         profile = analytics.profile_table(df)

@@ -408,7 +408,7 @@ with tab_dash:
                 color=alt.Color(
                     "Year:O",
                     scale=alt.Scale(
-                        range=["#D5A66F", "#C18B5B", "#A66B43", "#80543B", "#49372D"]
+                        range=["#A8BDA8", "#789080", "#607D68", "#486653", "#354F40"]
                     ),
                     legend=None
                 ),

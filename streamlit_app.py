@@ -1,6 +1,7 @@
 
 """E-Presso BI Analyst: load and profile all five business tables."""
 import io
+from urllib.request import urlopen
 
 import pandas as pd
 import streamlit as st
@@ -58,30 +59,63 @@ def cached_load(file_bytes, filename, table_type):
     return analytics.load_table(file_bytes, filename)
 
 
+DEFAULT_FILES = {
+    "sales": "Sales_EPresso.xlsx",
+    "stores": "Support_EX_B_Stores.csv",
+    "products": "Products.xlsx",
+    "categories": "Categories_Epresso.xlsx",
+    "survey": "Support_EX_B_Survey.xlsx",
+}
+
+
+@st.cache_data(show_spinner=False)
+def load_default_table(filename, table_type):
+    url = (
+        "https://raw.githubusercontent.com/"
+        "maliaelmer/Espresso-BI-Analyst/main/data/"
+        + filename
+    )
+    with urlopen(url) as response:
+        file_bytes = response.read()
+
+    return cached_load(file_bytes, filename, table_type)
+
+
 with st.sidebar:
     st.header("E-Presso Data")
+    st.caption(
+        "The original data loads automatically. Upload a file only "
+        "if you want to replace that table."
+    )
     uploaded_files = st.file_uploader(
-        "Upload all five data files",
+        "Optional: upload files to replace original data",
         type=["csv", "txt", "tsv", "xlsx", "xls"],
         accept_multiple_files=True,
     )
 
-if not uploaded_files:
-    st.info("Upload the five E-Presso files in the sidebar to begin.")
-    st.stop()
 
 tables = {}
+
+for table_type, filename in DEFAULT_FILES.items():
+    try:
+        tables[table_type] = load_default_table(filename, table_type)
+    except Exception as exc:
+        st.error(f"Could not load the default file {filename}: {exc}")
+        st.stop()
+
+
 unknown_files = []
 duplicate_tables = []
+uploaded_table_types = set()
 
-for uploaded in uploaded_files:
+for uploaded in uploaded_files or []:
     table_type = identify_table(uploaded.name)
 
     if table_type is None:
         unknown_files.append(uploaded.name)
         continue
 
-    if table_type in tables:
+    if table_type in uploaded_table_types:
         duplicate_tables.append(TABLE_NAMES[table_type])
         continue
 
@@ -91,9 +125,11 @@ for uploaded in uploaded_files:
             uploaded.name,
             table_type,
         )
+        uploaded_table_types.add(table_type)
     except Exception as exc:
         st.error(f"Could not read {uploaded.name}: {exc}")
         st.stop()
+
 
 if unknown_files:
     st.warning(
@@ -102,22 +138,9 @@ if unknown_files:
 
 if duplicate_tables:
     st.warning(
-        "You uploaded more than one file for: "
+        "You uploaded more than one replacement file for: "
         + ", ".join(duplicate_tables)
     )
-
-missing = [
-    TABLE_NAMES[key]
-    for key in TABLE_NAMES
-    if key not in tables
-]
-
-if missing:
-    st.warning(
-        "Still missing: " + ", ".join(missing)
-        + ". Please upload the missing files."
-    )
-    st.stop()
 
 st.success("All five E-Presso tables have been loaded successfully.")
 

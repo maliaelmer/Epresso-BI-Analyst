@@ -111,6 +111,16 @@ st.markdown("""
     border: none;
 }
 
+/* Override Streamlit's default red filter tags */
+.stMultiSelect [data-baseweb="tag"] {
+    background-color: #8B5E3C !important;
+    border: 1px solid #8B5E3C !important;
+}
+
+.stMultiSelect [data-baseweb="tag"] span {
+    color: #FFFFFF !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 st.markdown("""

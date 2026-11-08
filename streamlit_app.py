@@ -367,7 +367,7 @@ with tab_dash:
                 .sum()
                 .sort_index()
             )
-            st.bar_chart(yearly)
+           st.bar_chart(yearly, color="#8B5E3C")
 
             # Revenue by store type
             st.subheader("Revenue by store type")
@@ -377,7 +377,7 @@ with tab_dash:
                 .sum()
                 .sort_values(ascending=False)
             )
-            st.bar_chart(by_store)
+            st.bar_chart(by_store, color="#8B5E3C")
 
            
                         # Percentage of revenue by month
@@ -413,7 +413,7 @@ with tab_dash:
 
             monthly_chart = monthly.set_index("Month label")["Revenue percentage"]
 
-            st.bar_chart(monthly_chart)
+            st.bar_chart(monthly_chart, color="#B98255")
 
             # Revenue by category
             st.subheader("Revenue by category")
@@ -423,7 +423,7 @@ with tab_dash:
                 .sum()
                 .sort_values(ascending=False)
             )
-            st.bar_chart(by_category)
+            st.bar_chart(by_category, color="#8B5E3C")
 
         # Show evidence that joins did not change revenue
         with st.expander("Data relationship and merge checks"):

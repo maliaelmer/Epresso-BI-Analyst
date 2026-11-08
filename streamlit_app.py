@@ -387,7 +387,7 @@ with tab_dash:
 
         if filtered.empty:
             st.warning("No sales records match the selected filters.")
-        else:
+               else:
             # Revenue by year
             st.subheader("Revenue by year")
 
@@ -396,29 +396,30 @@ with tab_dash:
                 .sum()
                 .sort_index()
             )
+
             yearly_chart_data = yearly.rename_axis("Year").reset_index(name="Revenue")
 
-yearly_chart = alt.Chart(yearly_chart_data).mark_bar(
-    cornerRadiusTopLeft=6,
-    cornerRadiusTopRight=6
-).encode(
-    x=alt.X("Year:O", title="Year", axis=alt.Axis(labelAngle=0)),
-    y=alt.Y("Revenue:Q", title="Revenue ($)", scale=alt.Scale(domainMin=0)),
-    color=alt.Color(
-        "Year:O",
-        scale=alt.Scale(
-            range=["#D5A66F", "#C18B5B", "#A66B43", "#80543B", "#49372D"]
-        ),
-        legend=None
-    ),
-    tooltip=[
-        alt.Tooltip("Year:O", title="Year"),
-        alt.Tooltip("Revenue:Q", title="Revenue", format="$,.0f")
-    ]
-).properties(height=350)
+            yearly_chart = alt.Chart(yearly_chart_data).mark_bar(
+                cornerRadiusTopLeft=6,
+                cornerRadiusTopRight=6
+            ).encode(
+                x=alt.X("Year:O", title="Year", axis=alt.Axis(labelAngle=0)),
+                y=alt.Y("Revenue:Q", title="Revenue ($)", scale=alt.Scale(domainMin=0)),
+                color=alt.Color(
+                    "Year:O",
+                    scale=alt.Scale(
+                        range=["#D5A66F", "#C18B5B", "#A66B43", "#80543B", "#49372D"]
+                    ),
+                    legend=None
+                ),
+                tooltip=[
+                    alt.Tooltip("Year:O", title="Year"),
+                    alt.Tooltip("Revenue:Q", title="Revenue", format="$,.0f")
+                ]
+            ).properties(height=350)
 
-st.altair_chart(yearly_chart, use_container_width=True)
-
+            st.altair_chart(yearly_chart, use_container_width=True)
+        
             # Revenue by store type
             st.subheader("Revenue by store type")
 

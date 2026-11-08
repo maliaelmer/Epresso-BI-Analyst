@@ -552,7 +552,7 @@ with tab_survey:
                 "Location:N",
                 title="Location",
                 scale=alt.Scale(
-                    range=["#789080", "#D5A66F", "#C77B61", "#6F91A6", "#9A86A8"]
+                    range=["#386B50", "#D58B24", "#C65D4B", "#477DA8", "#8965A8"]
                 )
             ),
             tooltip=[

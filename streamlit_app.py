@@ -328,7 +328,7 @@ with tab_dash:
         # Interactive filters
         st.subheader("Filters")
 
-        col1, col2, col3 = st.columns(3)
+       col1, col2, col3 = st.columns([1, 1, 1.3])
 
         years = sorted(sales_data["Year"].dropna().unique())
         categories = sorted(sales_data["Category"].dropna().unique())

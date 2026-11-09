@@ -428,7 +428,31 @@ with tab_dash:
                 .sum()
                 .sort_values(ascending=False)
             )
-            st.bar_chart(by_store, color="#789080")
+            
+            store_chart_data = by_store.rename_axis("Store Type").reset_index(name="Revenue")
+
+            store_chart = alt.Chart(store_chart_data).mark_bar(
+                cornerRadiusEnd=6,
+                size=55
+            ).encode(
+                x=alt.X(
+                    "Revenue:Q",
+                    title="Revenue ($)",
+                    axis=alt.Axis(format="$,.0f")
+                ),
+                y=alt.Y(
+                    "Store Type:N",
+                    title=None,
+                    sort="-x"
+                ),
+                color=alt.value("#789080"),
+                tooltip=[
+                    alt.Tooltip("Store Type:N", title="Store Type"),
+                    alt.Tooltip("Revenue:Q", title="Revenue", format="$,.0f")
+                ]
+            ).properties(height=220)
+
+            st.altair_chart(store_chart, use_container_width=True)
 
            
                         # Percentage of revenue by month

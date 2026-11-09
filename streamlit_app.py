@@ -362,6 +362,7 @@ with tab_dash:
             & sales_data["StoreType"].isin(selected_store_types)
         ].copy()
 
+      
         # Key performance indicators
         st.subheader("Key performance indicators")
 
@@ -373,18 +374,59 @@ with tab_dash:
 
         c1, c2, c3 = st.columns(3)
 
-        c1.metric(
-            "Total revenue",
-            f"${total_revenue:,.0f}",
-        )
-        c2.metric(
-            "Sales records",
-            f"{sales_records:,}",
-        )
-        c3.metric(
-            "Average revenue per record",
-            f"${average_revenue:,.2f}",
-        )
+        with c1:
+            st.markdown(f"""
+            <div style="background:#FFFFFF; padding:22px;
+                        border-radius:14px; border:1px solid #E7DCCB;
+                        border-top:4px solid #789080;">
+                <div style="font-size:14px; color:#806B5B;">
+                    💰 Total revenue
+                </div>
+                <div style="font-size:28px; font-weight:700;
+                            color:#38271F; margin-top:10px;">
+                    ${total_revenue:,.0f}
+                </div>
+                <div style="font-size:12px; color:#789080;">
+                    Total sales value
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with c2:
+            st.markdown(f"""
+            <div style="background:#FFFFFF; padding:22px;
+                        border-radius:14px; border:1px solid #E7DCCB;
+                        border-top:4px solid #789080;">
+                <div style="font-size:14px; color:#806B5B;">
+                    ☕ Sales records
+                </div>
+                <div style="font-size:28px; font-weight:700;
+                            color:#38271F; margin-top:10px;">
+                    {sales_records:,}
+                </div>
+                <div style="font-size:12px; color:#789080;">
+                    Total transactions
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with c3:
+            st.markdown(f"""
+            <div style="background:#FFFFFF; padding:22px;
+                        border-radius:14px; border:1px solid #E7DCCB;
+                        border-top:4px solid #789080;">
+                <div style="font-size:14px; color:#806B5B;">
+                    🧾 Average revenue
+                </div>
+                <div style="font-size:28px; font-weight:700;
+                            color:#38271F; margin-top:10px;">
+                    ${average_revenue:,.2f}
+                </div>
+                <div style="font-size:12px; color:#789080;">
+                    Revenue per record
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
 
         if filtered.empty:
             st.warning("No sales records match the selected filters.")

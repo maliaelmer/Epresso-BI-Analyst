@@ -519,14 +519,14 @@ with tab_dash:
             # Revenue by category
             st.subheader("Revenue by category")
 
-                        by_category = (
+            by_category = (
                 filtered.groupby("Category")["Revenue"]
                 .sum()
                 .sort_values(ascending=False)
             )
 
             category_chart_data = (
-            by_category.rename_axis("Category")
+                by_category.rename_axis("Category")
                 .reset_index(name="Revenue")
             )
 

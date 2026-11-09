@@ -578,7 +578,7 @@ with tab_survey:
         "Revenue",
     ]
 
-       st.dataframe(
+    st.dataframe(
         survey_data[display_columns].rename(columns={
             "StoreType": "Store Type"
         }),

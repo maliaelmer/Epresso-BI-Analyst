@@ -486,7 +486,7 @@ with tab_dash:
                 + monthly["Month name"]
             )
 
-                       monthly_chart = alt.Chart(monthly).mark_bar(
+            monthly_chart = alt.Chart(monthly).mark_bar(
                 cornerRadiusEnd=4,
                 size=32
             ).encode(

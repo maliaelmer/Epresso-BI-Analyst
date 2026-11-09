@@ -526,7 +526,7 @@ with tab_dash:
             )
 
             category_chart_data = (
-                by_category.rename_axis("Category")
+            by_category.rename_axis("Category")
                 .reset_index(name="Revenue")
             )
 

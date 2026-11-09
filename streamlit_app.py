@@ -486,9 +486,34 @@ with tab_dash:
                 + monthly["Month name"]
             )
 
-            monthly_chart = monthly.set_index("Month label")["Revenue percentage"]
+                       monthly_chart = alt.Chart(monthly).mark_bar(
+                cornerRadiusEnd=4,
+                size=32
+            ).encode(
+                x=alt.X(
+                    "Revenue percentage:Q",
+                    title="Share of annual revenue (%)",
+                    axis=alt.Axis(labelExpr="datum.value + '%'"),
+                    scale=alt.Scale(domainMin=0)
+                ),
+                y=alt.Y(
+                    "Month name:N",
+                    title=None,
+                    sort=month_order,
+                    axis=alt.Axis(labelAngle=0)
+                ),
+                color=alt.value("#789080"),
+                tooltip=[
+                    alt.Tooltip("Month name:N", title="Month"),
+                    alt.Tooltip(
+                        "Revenue percentage:Q",
+                        title="Revenue share",
+                        format=".1f"
+                    )
+                ]
+            ).properties(height=380)
 
-            st.bar_chart(monthly_chart, color="#789080")
+            st.altair_chart(monthly_chart, use_container_width=True)
 
             # Revenue by category
             st.subheader("Revenue by category")

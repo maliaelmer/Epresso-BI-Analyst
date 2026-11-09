@@ -31,13 +31,13 @@ st.markdown("""
     }
 
     /* Sidebar */
-    [data-testid="stSidebar"] {
-        background-or: #30251F;
-    }
+[data-testid="stSidebar"] {
+    background-color: #30251F;
+}
 
-    [data-testid="stSidebar"] * {
-        or: #F7F4EE !important;
-    }
+[data-testid="stSidebar"] * {
+    color: #F7F4EE !important;
+}
 
     /* Metric cards */
 [data-testid="stMetric"] {

@@ -578,11 +578,24 @@ with tab_survey:
         "Revenue",
     ]
 
-    st.dataframe(
-        survey_data[display_columns],
+       st.dataframe(
+        survey_data[display_columns].rename(columns={
+            "StoreType": "Store Type"
+        }),
+        column_config={
+            "Revenue": st.column_config.NumberColumn(
+                "Revenue",
+                format="$%,.0f"
+            ),
+            "Year": st.column_config.NumberColumn(
+                "Year",
+                format="%d"
+            )
+        },
         use_container_width=True,
         hide_index=True
     )
+
 with tab_assistant:
     st.subheader("Ask the E-Presso BI Analyst")
     st.caption("Ask questions about revenue, store types, categories, and data quality.")

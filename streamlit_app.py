@@ -516,7 +516,7 @@ with tab_dash:
 
             st.altair_chart(monthly_chart, use_container_width=True)
 
-            # Revenue by category
+                       # Revenue by category
             st.subheader("Revenue by category")
 
             by_category = (
@@ -531,25 +531,28 @@ with tab_dash:
             )
 
             category_chart = alt.Chart(category_chart_data).mark_bar(
-                cornerRadiusEnd=6,
-                size=35
+                cornerRadiusTopLeft=5,
+                cornerRadiusTopRight=5,
+                size=65
             ).encode(
                 x=alt.X(
-                    "Revenue:Q",
-                    title="Revenue ($)",
-                    axis=alt.Axis(format="$,.0f")
+                    "Category:N",
+                    title="Product category",
+                    sort="-y",
+                    axis=alt.Axis(labelAngle=-25)
                 ),
                 y=alt.Y(
-                    "Category:N",
-                    title=None,
-                    sort="-x"
+                    "Revenue:Q",
+                    title="Revenue ($)",
+                    scale=alt.Scale(domainMin=0),
+                    axis=alt.Axis(format="$,.0f")
                 ),
                 color=alt.value("#789080"),
                 tooltip=[
                     alt.Tooltip("Category:N", title="Category"),
                     alt.Tooltip("Revenue:Q", title="Revenue", format="$,.0f")
                 ]
-            ).properties(height=max(220, 45 * len(category_chart_data)))
+            ).properties(height=350)
 
             st.altair_chart(category_chart, use_container_width=True)
 

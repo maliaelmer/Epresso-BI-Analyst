@@ -493,13 +493,13 @@ with tab_dash:
             ).encode(
                 x=alt.X(
                     "Month name:N",
-                    title=None,
+                    title="Month",
                     sort=month_order,
                     axis=alt.Axis(labelAngle=-45)
                 ),
                 y=alt.Y(
                     "Revenue percentage:Q",
-                    title="Share of revenue (%)",
+                    title="Share of annual revenue (%)",
                     axis=alt.Axis(labelExpr="datum.value + '%'"),
                     scale=alt.Scale(domainMin=0)
                 ),

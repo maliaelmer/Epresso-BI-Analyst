@@ -32,51 +32,51 @@ st.markdown("""
 
     /* Sidebar */
     [data-testid="stSidebar"] {
-        background-color: #30251F;
+        background-or: #30251F;
     }
 
     [data-testid="stSidebar"] * {
-        color: #F7F4EE !important;
+        or: #F7F4EE !important;
     }
 
     /* Metric cards */
     [data-testid="stMetric"] {
-        background-color: #FFFFFF;
+        background-or: #FFFFFF;
         border: 1px solid #E7DCCB;
         padding: 18px;
         border-radius: 12px;
     }
 
     [data-testid="stMetricLabel"] {
-        color: #806B5B !important;
+        or: #806B5B !important;
     }
 
     [data-testid="stMetricValue"] {
-        color: #38271F !important;
+        or: #38271F !important;
     }
 
     /* Buttons */
     .stButton > button {
-        background-color: #8B5E3C;
-        color: white;
+        background-or: #8B5E3C;
+        or: white;
         border: none;
         border-radius: 8px;
     }
 
     .stButton > button:hover {
-        background-color: #68432D;
-        color: white;
+        background-or: #68432D;
+        or: white;
         border: none;
     }
 
     /* Tabs */
     button[data-baseweb="tab"] {
-        color: #68432D;
+        or: #68432D;
     }
 
     button[data-baseweb="tab"][aria-selected="true"] {
-        color: #A66B3F;
-        border-bottom-color: #A66B3F;
+        or: #A66B3F;
+        border-bottom-or: #A66B3F;
     }
 
     /* Data tables */
@@ -86,17 +86,17 @@ st.markdown("""
     }
     /* Filter selection tags */
 [data-baseweb="tag"] {
-    background-color: #8B5E3C !important;
-    color: white !important;
-    border-color: #8B5E3C !important;
+    background-or: #8B5E3C !important;
+    or: white !important;
+    border-or: #8B5E3C !important;
 }
 
 [data-baseweb="tag"] * {
-    color: white !important;
+    or: white !important;
 }
 /* Sidebar upload area */
 [data-testid="stSidebar"] [data-testid="stFileUploader"] {
-    background-color: #49372D;
+    background-or: #49372D;
     border: 1px solid #806B5B;
     border-radius: 10px;
     padding: 10px;
@@ -328,7 +328,7 @@ with tab_dash:
         # Interactive filters
         st.subheader("Filters")
 
-       col1, col2, col3 = st.columns([1, 1, 1.3])
+            col1, col2, col3 = st.columns([1, 1, 1.3])
 
         years = sorted(sales_data["Year"].dropna().unique())
         categories = sorted(sales_data["Category"].dropna().unique())

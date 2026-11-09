@@ -487,20 +487,21 @@ with tab_dash:
             )
 
             monthly_chart = alt.Chart(monthly).mark_bar(
-                cornerRadiusEnd=4,
-                size=32
+                cornerRadiusTopLeft=5,
+                cornerRadiusTopRight=5,
+                size=35
             ).encode(
                 x=alt.X(
-                    "Revenue percentage:Q",
-                    title="Share of annual revenue (%)",
-                    axis=alt.Axis(labelExpr="datum.value + '%'"),
-                    scale=alt.Scale(domainMin=0)
-                ),
-                y=alt.Y(
                     "Month name:N",
                     title=None,
                     sort=month_order,
-                    axis=alt.Axis(labelAngle=0)
+                    axis=alt.Axis(labelAngle=-45)
+                ),
+                y=alt.Y(
+                    "Revenue percentage:Q",
+                    title="Share of revenue (%)",
+                    axis=alt.Axis(labelExpr="datum.value + '%'"),
+                    scale=alt.Scale(domainMin=0)
                 ),
                 color=alt.value("#789080"),
                 tooltip=[
@@ -511,7 +512,7 @@ with tab_dash:
                         format=".1f"
                     )
                 ]
-            ).properties(height=380)
+            ).properties(height=350)
 
             st.altair_chart(monthly_chart, use_container_width=True)
 

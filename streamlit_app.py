@@ -55,28 +55,28 @@ st.markdown("""
     color: #38271F !important;
 }
 
-    /* Buttons */
+      /* Buttons */
     .stButton > button {
-        background-or: #8B5E3C;
-        or: white;
+        background-color: #8B5E3C;
+        color: white;
         border: none;
         border-radius: 8px;
     }
 
     .stButton > button:hover {
-        background-or: #68432D;
-        or: white;
+        background-color: #68432D;
+        color: white;
         border: none;
     }
 
     /* Tabs */
     button[data-baseweb="tab"] {
-        or: #68432D;
+        color: #68432D;
     }
 
     button[data-baseweb="tab"][aria-selected="true"] {
-        or: #A66B3F;
-        border-bottom-or: #A66B3F;
+        color: #A66B3F;
+        border-bottom-color: #A66B3F;
     }
 
     /* Data tables */
@@ -84,44 +84,45 @@ st.markdown("""
         border: 1px solid #E7DCCB;
         border-radius: 10px;
     }
+
     /* Filter selection tags */
-[data-baseweb="tag"] {
-    background-or: #8B5E3C !important;
-    or: white !important;
-    border-or: #8B5E3C !important;
-}
+    [data-baseweb="tag"] {
+        background-color: #8B5E3C !important;
+        color: white !important;
+        border-color: #8B5E3C !important;
+    }
 
-[data-baseweb="tag"] * {
-    or: white !important;
-}
-/* Sidebar upload area */
-[data-testid="stSidebar"] [data-testid="stFileUploader"] {
-    background-or: #49372D;
-    border: 1px solid #806B5B;
-    border-radius: 10px;
-    padding: 10px;
-}
+    [data-baseweb="tag"] * {
+        color: white !important;
+    }
 
-[data-testid="stSidebar"] [data-testid="stFileUploader"] section {
-    background-color: #49372D;
-}
+    /* Sidebar upload area */
+    [data-testid="stSidebar"] [data-testid="stFileUploader"] {
+        background-color: #49372D;
+        border: 1px solid #806B5B;
+        border-radius: 10px;
+        padding: 10px;
+    }
 
-[data-testid="stSidebar"] [data-testid="stFileUploader"] button {
-    background-color: #B98255;
-    color: white;
-    border: none;
-}
+    [data-testid="stSidebar"] [data-testid="stFileUploader"] section {
+        background-color: #49372D;
+    }
 
-/* Override Streamlit's default red filter tags */
-.stMultiSelect [data-baseweb="tag"] {
-    background-color: #8B5E3C !important;
-    border: 1px solid #8B5E3C !important;
-}
+    [data-testid="stSidebar"] [data-testid="stFileUploader"] button {
+        background-color: #B98255;
+        color: white;
+        border: none;
+    }
 
-.stMultiSelect [data-baseweb="tag"] span {
-    color: #FFFFFF !important;
-}
+    /* Override Streamlit's default red filter tags */
+    .stMultiSelect [data-baseweb="tag"] {
+        background-color: #8B5E3C !important;
+        border: 1px solid #8B5E3C !important;
+    }
 
+    .stMultiSelect [data-baseweb="tag"] span {
+        color: #FFFFFF !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 st.markdown("""

@@ -40,20 +40,20 @@ st.markdown("""
     }
 
     /* Metric cards */
-    [data-testid="stMetric"] {
-        background-or: #FFFFFF;
-        border: 1px solid #E7DCCB;
-        padding: 18px;
-        border-radius: 12px;
-    }
+[data-testid="stMetric"] {
+    background-color: #FFFFFF;
+    border: 1px solid #E7DCCB;
+    padding: 18px;
+    border-radius: 12px;
+}
 
-    [data-testid="stMetricLabel"] {
-        or: #806B5B !important;
-    }
+[data-testid="stMetricLabel"] {
+    color: #806B5B !important;
+}
 
-    [data-testid="stMetricValue"] {
-        or: #38271F !important;
-    }
+[data-testid="stMetricValue"] {
+    color: #38271F !important;
+}
 
     /* Buttons */
     .stButton > button {

@@ -519,12 +519,39 @@ with tab_dash:
             # Revenue by category
             st.subheader("Revenue by category")
 
-            by_category = (
+                        by_category = (
                 filtered.groupby("Category")["Revenue"]
                 .sum()
                 .sort_values(ascending=False)
             )
-            st.bar_chart(by_category, color="#789080")
+
+            category_chart_data = (
+                by_category.rename_axis("Category")
+                .reset_index(name="Revenue")
+            )
+
+            category_chart = alt.Chart(category_chart_data).mark_bar(
+                cornerRadiusEnd=6,
+                size=35
+            ).encode(
+                x=alt.X(
+                    "Revenue:Q",
+                    title="Revenue ($)",
+                    axis=alt.Axis(format="$,.0f")
+                ),
+                y=alt.Y(
+                    "Category:N",
+                    title=None,
+                    sort="-x"
+                ),
+                color=alt.value("#789080"),
+                tooltip=[
+                    alt.Tooltip("Category:N", title="Category"),
+                    alt.Tooltip("Revenue:Q", title="Revenue", format="$,.0f")
+                ]
+            ).properties(height=max(220, 45 * len(category_chart_data)))
+
+            st.altair_chart(category_chart, use_container_width=True)
 
         # Show evidence that joins did not change revenue
         with st.expander("Data relationship and merge checks"):
@@ -648,7 +675,7 @@ with tab_survey:
 
 with tab_assistant:
     st.subheader("Ask the E-Presso BI Analyst")
-    st.caption("Ask questions about revenue, store types, categories, and data quality.")
+    st.caption("Ask questions about , store types, categories, and data quality.")
 
     st.session_state.setdefault("n_questions", 0)
     st.session_state.setdefault("history", [])

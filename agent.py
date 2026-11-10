@@ -235,9 +235,7 @@ def answer_question(question: str, df, mode: str = 'rules') -> dict:
     if mode == 'rules':
         routed = rules_router(question, df)
     else:
-        routed = rules_router(question, df)
-        if routed is None:
-            routed = llm_router(question, df)
+        routed = llm_router(question, df)
     if routed is None:
         return {'scope': 'n/a', 'findings': UNSUPPORTED, 'interpretation': '',
                 'next_steps': '', 'tool_log': log}

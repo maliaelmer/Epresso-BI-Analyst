@@ -708,7 +708,6 @@ with tab_survey:
         how="left"
     )
 
-  
     st.subheader("Customer Satisfaction and Revenue by Location")
 
     location_analysis = (
@@ -728,7 +727,6 @@ with tab_survey:
             on="pointerover",
             empty=True
         )
-
 
         survey_chart = alt.Chart(location_analysis).mark_circle(
             size=180,
@@ -773,11 +771,6 @@ with tab_survey:
     else:
         st.info("No customer satisfaction data is available.")
 
-    else:
-        st.info("No customer satisfaction data is available.")
-
-    else:
-        st.info("No customer satisfaction data is available.")
     
     st.subheader("Survey Results by Location")
 

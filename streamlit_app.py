@@ -708,7 +708,7 @@ with tab_survey:
         how="left"
     )
 
-    st.subheader("Customer Satisfaction and Revenue by Location")
+    st.subheader("Customer Satisfaction and Revenue by ")
 
     location_analysis = (
         survey_data.groupby("Location", as_index=False)
@@ -783,23 +783,25 @@ with tab_survey:
         "StoreType",
         "Revenue",
     ]
-
+    
     st.dataframe(
         survey_data[display_columns].rename(columns={
             "StoreType": "Store Type"
         }),
         column_config={
+            "Survey ID": st.column_config.TextColumn("Survey ID"),
+            "Year": st.column_config.NumberColumn(
+                "Year",
+                format="%d"
+            ),
             "Revenue": st.column_config.NumberColumn(
                 "Revenue",
                 format="$%,.0f"
             ),
-            "Year": st.column_config.NumberColumn(
-                "Year",
-                format="%d"
-            )
         },
         use_container_width=True,
-        hide_index=True
+        hide_index=True,
+        height=400
     )
 
 with tab_assistant:

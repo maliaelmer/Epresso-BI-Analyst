@@ -844,7 +844,11 @@ with tab_assistant:
 
             with st.expander("Tool-call log"):
                 st.json(answer["tool_log"])
-
+    answer_mode = st.radio(
+        "Choose answer mode:",
+        ["Data-based", "Gemini-assisted"],
+        horizontal=True,
+    )
     question = st.chat_input("Ask a question about E-Presso sales")
 
     if question:

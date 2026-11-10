@@ -109,10 +109,40 @@ def llm_router(question: str, df):
     raise NotImplementedError('Add the language-model router after your tools are tested.')
 
 
+
 def format_findings(result: ToolResult) -> str:
     if result.error:
         return f'The request could not be completed: {result.error}'
-    return f'{result.definition}: {result.value}  (rows used: {result.rows_used})'
+
+    if result.tool == 'revenue_growth_by_channel':
+        value = result.value
+        lines = [
+            f"Revenue growth by sales channel "
+            f"({value['first_year']}–{value['last_year']}):"
+        ]
+
+        for channel, data in value['channels'].items():
+            growth = data['growth_percentage']
+
+            if growth is None:
+                growth_text = "could not be calculated"
+            else:
+                growth_text = f"{growth:+.2f}%"
+
+            lines.append(
+                f"{channel}: "
+                f"${data['starting_revenue']:,.0f} to "
+                f"${data['ending_revenue']:,.0f} "
+                f"({growth_text})"
+            )
+
+        return "\n".join(lines) + f"\nRows used: {result.rows_used}"
+
+    return (
+        f'{result.definition}: {result.value} '
+        f'(rows used: {result.rows_used})'
+    )
+
 
 
 def answer_question(question: str, df, mode: str = 'rules') -> dict:

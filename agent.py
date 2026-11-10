@@ -168,6 +168,11 @@ def llm_router(question: str, df):
             config=types.GenerateContentConfig(
                 system_instruction=SYSTEM_PROMPT,
                 tools=[tool],
+                tool_config=types.ToolConfig(
+                    function_calling_config=types.FunctionCallingConfig(
+                        mode="ANY"
+                    )
+                ),
             ),
         )
 

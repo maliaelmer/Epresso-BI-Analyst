@@ -181,7 +181,10 @@ def answer_question(question: str, df, mode: str = 'rules') -> dict:
                 f"{interpretation}"
             )
     return {
-        'scope': str(result.scope),
+        'scope': (
+            f"Full loaded dataset (independent of dashboard filters). "
+            f"{result.scope}"
+        ),
         'findings': format_findings(result),
         'interpretation': interpretation,
         'next_steps': '',

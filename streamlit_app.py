@@ -819,8 +819,6 @@ with tab_survey:
 
 with tab_assistant:
     st.subheader("Ask the E-Presso BI Analyst")
-    if "gemini_error" in st.session_state:
-        st.error(f"Gemini error: {st.session_state['gemini_error']}")
     st.caption("Ask questions about , store types, categories, and data quality.")
 
     st.session_state.setdefault("n_questions", 0)

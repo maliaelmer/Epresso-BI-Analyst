@@ -153,10 +153,37 @@ def answer_question(question: str, df, mode: str = 'rules') -> dict:
                 'next_steps': '', 'tool_log': log}
     name, args = routed
     result = run_tool(name, args, df, log)
+        interpretation = ' '.join(result.caveats)
+
+    if result.tool == 'revenue_growth_by_channel' and not result.error:
+        channels = result.value['channels']
+
+        valid_channels = {
+            channel: data['growth_percentage']
+            for channel, data in channels.items()
+            if data['growth_percentage'] is not None
+        }
+
+        if valid_channels:
+            best_channel = max(
+                valid_channels,
+                key=valid_channels.get
+            )
+
+            interpretation = (
+                f"{best_channel} experienced the greatest percentage "
+                f"revenue growth. This comparison uses the first and "
+                f"last available years ({result.value['first_year']} "
+                f"and {result.value['last_year']}) and the full loaded "
+                f"dataset. It does not establish why revenue changed. "
+                f"The calculation also does not verify whether both "
+                f"years cover equally complete periods. "
+                f"{interpretation}"
+            )
     return {
         'scope': str(result.scope),
         'findings': format_findings(result),
-        'interpretation': ' '.join(result.caveats),
+        'interpretation': interpretation,
         'next_steps': '',
         'tool_log': log,
     }

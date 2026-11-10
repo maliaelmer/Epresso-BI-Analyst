@@ -45,7 +45,7 @@ SYSTEM_PROMPT = """You are an analytical assistant for E-Presso managers.
 Rules:
 - Only state numbers that appear in a tool result. Never estimate or recall figures.
 - Always call a tool before making a numerical claim.
-- State the scope (which filters/period) of every answer.
+- State the scope (which /period) of every answer.
 - Separate Findings (from tool results), Interpretation, and Next steps.
 - Revenue is not profit. Association is not causation.
 - If the data cannot support a conclusion, say so and name the missing information.
@@ -84,7 +84,10 @@ def rules_router(question: str, df):
             'filters': {}
         }
 
-    if any(w in q for w in ('store type', 'by store type', 'per store type')):
+        if any(w in q for w in (
+        'store type', 'by store type', 'per store type',
+        'sales channel', 'by channel', 'per channel', 'channel'
+    )):
         return 'group_total', {
             'value_col': 'Revenue',
             'group_col': 'StoreType',

@@ -107,7 +107,7 @@ def rules_router(question: str, df):
     return None
 
 def llm_router(question: str, df):
-    """Ask Gemini to select one approved analytical tool."""
+    """Ask  to select one approved analytical tool."""
     try:
         api_key = st.secrets["GEMINI_API_KEY"]
         client = genai.Client(api_key=api_key)
@@ -163,7 +163,7 @@ def llm_router(question: str, df):
         tool = types.Tool(function_declarations=declarations)
 
         response = client.models.generate_content(
-            model="gemini-3.8-flash",
+            model="gemini-3.5-flash-lite",
             contents=question,
             config=types.GenerateContentConfig(
                 system_instruction=SYSTEM_PROMPT,

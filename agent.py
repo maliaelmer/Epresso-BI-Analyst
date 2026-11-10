@@ -77,14 +77,14 @@ def rules_router(question: str, df):
     if any(w in q for w in ('missing', 'duplicate', 'quality', 'blank')):
         return 'data_quality_report', {}
 
-    if any(w in q for w in ('by year', 'per year', 'annual', 'yearly')):
+        if any(w in q for w in ('by year', 'per year', 'annual', 'yearly')):
         return 'group_total', {
             'value_col': 'Revenue',
             'group_col': 'Year',
             'filters': {}
         }
 
-        if any(w in q for w in (
+    if any(w in q for w in (
         'store type', 'by store type', 'per store type',
         'sales channel', 'by channel', 'per channel', 'channel'
     )):
@@ -232,7 +232,7 @@ def format_findings(result: ToolResult) -> str:
 
 def answer_question(question: str, df, mode: str = 'rules') -> dict:
     log: list = []
-       if mode == 'rules':
+    if mode == 'rules':
         routed = rules_router(question, df)
     else:
         routed = llm_router(question, df)

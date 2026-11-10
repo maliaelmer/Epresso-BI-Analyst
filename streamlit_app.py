@@ -456,7 +456,7 @@ with tab_dash:
                 cornerRadiusTopRight=6
             ).encode(
                 x=alt.X("Year:O", title="Year", axis=alt.Axis(labelAngle=0)),
-                y=alt.Y("Revenue:Q", title="Revenue ($)", scale=alt.Scale(domainMin=0)),
+                y=alt.Y("Revenue:Q", title="Revenue ($)", =alt.(domainMin=0)),
                 color=alt.condition(
                     highlight,
                     alt.value("#789080"),
@@ -744,15 +744,23 @@ with tab_survey:
                 scale=alt.Scale(domainMin=0),
                 axis=alt.Axis(format="$,.0f")
             ),
+            
             color=alt.condition(
                 highlight,
                 alt.Color(
                     "Location:N",
                     title="Location",
                     scale=alt.Scale(
-                        range=["#386B50", "#D58B24", "#C65D4B", "#477DA8", "#8965A8"]
+                        range=["#009E73", "#E69F00", "#D55E00", "#0072B2", "#CC79A7"]
+                    ),
+                    legend=alt.Legend(
+                        symbolSize=180,
+                        symbolStrokeWidth=1.5
                     )
                 ),
+                alt.value("#D9E1DC")
+            ),
+
                 alt.value("#D9E1DC")
             ),
             tooltip=[

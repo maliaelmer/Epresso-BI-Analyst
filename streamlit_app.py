@@ -432,7 +432,8 @@ with tab_dash:
             st.warning("No sales records match the selected filters.")
         else:
           
-           # Revenue by year
+           
+            # Revenue by year
             st.subheader("Revenue by year")
 
             yearly = (
@@ -443,24 +444,33 @@ with tab_dash:
 
             yearly_chart_data = yearly.rename_axis("Year").reset_index(name="Revenue")
 
+            # Highlight the bar when the user hovers over it
+            highlight = alt.selection_point(
+                fields=["Year"],
+                on="pointerover",
+                empty=True
+            )
+
             yearly_chart = alt.Chart(yearly_chart_data).mark_bar(
                 cornerRadiusTopLeft=6,
                 cornerRadiusTopRight=6
             ).encode(
                 x=alt.X("Year:O", title="Year", axis=alt.Axis(labelAngle=0)),
                 y=alt.Y("Revenue:Q", title="Revenue ($)", scale=alt.Scale(domainMin=0)),
-                color=alt.Color(
-                    "Year:O",
-                    scale=alt.Scale(
-                        range=["#789080"]
-                    ),
-                    legend=None
+                color=alt.condition(
+                    highlight,
+                    alt.value("#789080"),
+                    alt.value("#D9E1DC")
                 ),
                 tooltip=[
                     alt.Tooltip("Year:O", title="Year"),
                     alt.Tooltip("Revenue:Q", title="Revenue", format="$,.0f")
                 ]
-            ).properties(height=350)
+            ).properties(
+                height=350
+            ).add_params(
+                highlight
+            )
 
             st.altair_chart(yearly_chart, use_container_width=True)
 

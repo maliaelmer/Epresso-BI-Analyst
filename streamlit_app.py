@@ -760,9 +760,6 @@ with tab_survey:
                 ),
                 alt.value("#D9E1DC")
             ),
-
-                alt.value("#D9E1DC")
-            ),
             tooltip=[
                 alt.Tooltip("Location:N", title="Location"),
                 alt.Tooltip("Average_Satisfaction:Q", title="Satisfaction", format=".2f"),

@@ -153,7 +153,7 @@ def answer_question(question: str, df, mode: str = 'rules') -> dict:
                 'next_steps': '', 'tool_log': log}
     name, args = routed
     result = run_tool(name, args, df, log)
-        interpretation = ' '.join(result.caveats)
+    interpretation = ' '.join(result.caveats)
 
     if result.tool == 'revenue_growth_by_channel' and not result.error:
         channels = result.value['channels']

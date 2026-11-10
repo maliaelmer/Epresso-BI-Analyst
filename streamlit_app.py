@@ -302,7 +302,11 @@ with tab_data:
 
         with st.expander(f"{title} — {len(df):,} rows", expanded=(key == "sales")):
             st.subheader("Preview")
-            st.dataframe(df.head(10), use_container_width=True)
+            st.dataframe(
+                df,
+                use_container_width=True,
+                height=500
+            )
 
             left, right = st.columns(2)
 

@@ -187,7 +187,7 @@ def llm_router(question: str, df):
         return call.name, dict(call.args or {})
 
     except Exception as e:
-        st.error(f"Gemini could not process the request: {e}")
+        st.session_state["gemini_error"] = str(e)
         return None
 
 

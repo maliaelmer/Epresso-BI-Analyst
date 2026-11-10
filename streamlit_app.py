@@ -870,7 +870,7 @@ with tab_assistant:
             answer = agent.answer_question(
                 question,
                 assistant_sales,
-                mode=""rules" if answer_mode == "Data-based" else "llm",
+                mode="rules" if answer_mode == "Data-based" else "llm",
             )
 
             st.session_state["history"].append({

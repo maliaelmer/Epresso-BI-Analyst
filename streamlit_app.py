@@ -475,6 +475,7 @@ with tab_dash:
             st.altair_chart(yearly_chart, use_container_width=True)
 
         
+           
             # Revenue by store type
             st.subheader("Revenue by store type")
 
@@ -483,8 +484,15 @@ with tab_dash:
                 .sum()
                 .sort_values(ascending=False)
             )
-            
+
             store_chart_data = by_store.rename_axis("Store Type").reset_index(name="Revenue")
+
+            # Highlight the bar when the user hovers over it
+            highlight = alt.selection_point(
+                fields=["Store Type"],
+                on="pointerover",
+                empty=True
+            )
 
             store_chart = alt.Chart(store_chart_data).mark_bar(
                 cornerRadiusEnd=6,
@@ -500,14 +508,23 @@ with tab_dash:
                     title=None,
                     sort="-x"
                 ),
-                color=alt.value("#789080"),
+                color=alt.condition(
+                    highlight,
+                    alt.value("#789080"),
+                    alt.value("#D9E1DC")
+                ),
                 tooltip=[
                     alt.Tooltip("Store Type:N", title="Store Type"),
                     alt.Tooltip("Revenue:Q", title="Revenue", format="$,.0f")
                 ]
-            ).properties(height=220)
+            ).properties(
+                height=220
+            ).add_params(
+                highlight
+            )
 
             st.altair_chart(store_chart, use_container_width=True)
+
 
            
                         

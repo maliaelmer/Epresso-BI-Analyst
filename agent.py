@@ -232,7 +232,12 @@ def format_findings(result: ToolResult) -> str:
 
 def answer_question(question: str, df, mode: str = 'rules') -> dict:
     log: list = []
-    routed = rules_router(question, df) if mode == 'rules' else llm_router(question, df)
+       if mode == 'rules':
+        routed = rules_router(question, df)
+    else:
+        routed = llm_router(question, df)
+        if routed is None:
+            routed = rules_router(question, df)
     if routed is None:
         return {'scope': 'n/a', 'findings': UNSUPPORTED, 'interpretation': '',
                 'next_steps': '', 'tool_log': log}

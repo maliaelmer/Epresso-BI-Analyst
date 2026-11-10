@@ -456,7 +456,11 @@ with tab_dash:
                 cornerRadiusTopRight=6
             ).encode(
                 x=alt.X("Year:O", title="Year", axis=alt.Axis(labelAngle=0)),
-                y=alt.Y("Revenue:Q", title="Revenue ($)", =alt.(domainMin=0)),
+                y=alt.Y(
+                    "Revenue:Q",
+                    title="Revenue ($)",
+                    scale=alt.Scale(domainMin=0)
+                ),
                 color=alt.condition(
                     highlight,
                     alt.value("#789080"),

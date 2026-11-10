@@ -719,8 +719,21 @@ with tab_survey:
         .dropna(subset=["Average_Satisfaction"])
     )
 
+   
     if not location_analysis.empty:
-        survey_chart = alt.Chart(location_analysis).mark_circle(size=130).encode(
+
+        # Highlight the location when the user hovers over it
+        highlight = alt.selection_point(
+            fields=["Location"],
+            on="pointerover",
+            empty=True
+        )
+
+        survey_chart = alt.Chart(location_analysis).mark_circle(
+            size=180,
+            stroke="#30251F",
+            strokeWidth=1
+        ).encode(
             x=alt.X(
                 "Average_Satisfaction:Q",
                 title="Customer satisfaction (0–5)",
@@ -732,21 +745,32 @@ with tab_survey:
                 scale=alt.Scale(domainMin=0),
                 axis=alt.Axis(format="$,.0f")
             ),
-            color=alt.Color(
-                "Location:N",
-                title="Location",
-                scale=alt.Scale(
-                    range=["#386B50", "#D58B24", "#C65D4B", "#477DA8", "#8965A8"]
-                )
+            color=alt.condition(
+                highlight,
+                alt.Color(
+                    "Location:N",
+                    title="Location",
+                    scale=alt.Scale(
+                        range=["#386B50", "#D58B24", "#C65D4B", "#477DA8", "#8965A8"]
+                    )
+                ),
+                alt.value("#D9E1DC")
             ),
             tooltip=[
                 alt.Tooltip("Location:N", title="Location"),
                 alt.Tooltip("Average_Satisfaction:Q", title="Satisfaction", format=".2f"),
                 alt.Tooltip("Revenue:Q", title="Revenue", format="$,.0f")
             ]
-        ).properties(height=350)
+        ).properties(
+            height=350
+        ).add_params(
+            highlight
+        )
 
         st.altair_chart(survey_chart, use_container_width=True)
+    else:
+        st.info("No customer satisfaction data is available.")
+
     else:
         st.info("No customer satisfaction data is available.")
     

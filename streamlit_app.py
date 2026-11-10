@@ -708,17 +708,16 @@ with tab_survey:
         how="left"
     )
 
-    st.subheader("Customer Satisfaction and Revenue by ")
+   st.subheader("Customer Satisfaction and Revenue by Location")
 
-    _analysis = (
-        survey_data.groupby("", as_index=False)
-        .agg(
-            Average_Satisfaction=("Satisfaction", "mean"),
-            Revenue=("Revenue", "sum")
-        )
-        .dropna(subset=["Average_Satisfaction"])
+location_analysis = (
+    survey_data.groupby("Location", as_index=False)
+    .agg(
+        Average_Satisfaction=("Satisfaction", "mean"),
+        Revenue=("Revenue", "sum")
     )
-
+    .dropna(subset=["Average_Satisfaction"])
+)
     if not location_analysis.empty:
 
         # Highlight the location when the user hovers over it

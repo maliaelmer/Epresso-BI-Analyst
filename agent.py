@@ -107,9 +107,83 @@ def rules_router(question: str, df):
     return None
 
 def llm_router(question: str, df):
-    """Option A router. TODO: after the rules-based version works, ask a model that
-    supports function calling to choose from TOOLS. Return (name, args) or None."""
-    raise NotImplementedError('Add the language-model router after your tools are tested.')
+    """Ask Gemini to select one approved analytical tool."""
+    try:
+        api_key = st.secrets["GEMINI_API_KEY"]
+        client = genai.Client(api_key=api_key)
+
+        numeric_columns = df.select_dtypes(include="number").columns.tolist()
+        all_columns = df.columns.tolist()
+
+        declarations = [
+            types.FunctionDeclaration(
+                name="get_total",
+                description="Calculate the sum of a numeric column.",
+                parameters_json_schema={
+                    "type": "object",
+                    "properties": {
+                        "value_col": {
+                            "type": "string",
+                            "enum": numeric_columns,
+                        }
+                    },
+                    "required": ["value_col"],
+                },
+            ),
+            types.FunctionDeclaration(
+                name="group_total",
+                description="Calculate a numeric total grouped by another column.",
+                parameters_json_schema={
+                    "type": "object",
+                    "properties": {
+                        "value_col": {
+                            "type": "string",
+                            "enum": numeric_columns,
+                        },
+                        "group_col": {
+                            "type": "string",
+                            "enum": all_columns,
+                        },
+                    },
+                    "required": ["value_col", "group_col"],
+                },
+            ),
+            types.FunctionDeclaration(
+                name="revenue_growth_by_channel",
+                description="Compare revenue growth across sales channels.",
+                parameters_json_schema={"type": "object"},
+            ),
+            types.FunctionDeclaration(
+                name="data_quality_report",
+                description="Report missing values and duplicate rows.",
+                parameters_json_schema={"type": "object"},
+            ),
+        ]
+
+        tool = types.Tool(function_declarations=declarations)
+
+        response = client.models.generate_content(
+            model="gemini-3.8-flash",
+            contents=question,
+            config=types.GenerateContentConfig(
+                system_instruction=SYSTEM_PROMPT,
+                tools=[tool],
+            ),
+        )
+
+        if not response.function_calls:
+            return None
+
+        call = response.function_calls[0]
+
+        if call.name not in TOOLS:
+            return None
+
+        return call.name, dict(call.args or {})
+
+    except Exception as e:
+        st.error(f"Gemini could not process the request: {e}")
+        return None
 
 
 

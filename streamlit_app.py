@@ -866,7 +866,7 @@ with tab_assistant:
             answer = agent.answer_question(
                 question,
                 assistant_sales,
-                mode="rules",
+                mode="llm",
             )
 
             st.session_state["history"].append({

@@ -708,10 +708,10 @@ with tab_survey:
         how="left"
     )
 
-    st.subheader("Customer Satisfaction and Revenue by Location")
+    st.subheader("Customer Satisfaction and Revenue by ")
 
-    location_analysis = (
-        survey_data.groupby("Location", as_index=False)
+    _analysis = (
+        survey_data.groupby("", as_index=False)
         .agg(
             Average_Satisfaction=("Satisfaction", "mean"),
             Revenue=("Revenue", "sum")
@@ -719,7 +719,6 @@ with tab_survey:
         .dropna(subset=["Average_Satisfaction"])
     )
 
-   
     if not location_analysis.empty:
 
         # Highlight the location when the user hovers over it
@@ -768,6 +767,10 @@ with tab_survey:
         )
 
         st.altair_chart(survey_chart, use_container_width=True)
+
+    else:
+        st.info("No customer satisfaction data is available.")
+
     else:
         st.info("No customer satisfaction data is available.")
 

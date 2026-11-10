@@ -18,6 +18,14 @@ TOOLS = {
         'params': {'value_col', 'group_col', 'filters'},
         'description': 'Sum a numeric column by group (store, channel, year, ...).',
     },
+    'revenue_growth_by_channel': {
+    'fn': analytics.revenue_growth_by_channel,
+    'params': set(),
+    'description': (
+        'Compare percentage revenue growth across sales channels '
+        'between the first and last available years.'
+    ),
+},
     'data_quality_report': {
         'fn': analytics.data_quality_report,
         'params': set(),

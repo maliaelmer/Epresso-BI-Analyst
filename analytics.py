@@ -200,6 +200,84 @@ def group_total(
         rows_used=int(len(work) - n_bad - n_nogroup),
         caveats=caveats,
     )
+    
+def revenue_growth_by_channel(
+    df: pd.DataFrame,
+) -> ToolResult:
+    """Compare revenue growth across sales channels."""
+    name = "revenue_growth_by_channel"
+
+    required = ["Year", "StoreType", "Revenue"]
+    missing = [col for col in required if col not in df.columns]
+
+    if missing:
+        return _error(name, f"Missing required columns: {missing}")
+
+    work = df[required].copy()
+    work["Year"] = pd.to_numeric(work["Year"], errors="coerce")
+    work["Revenue"] = pd.to_numeric(
+        work["Revenue"], errors="coerce"
+    )
+
+    work = work.dropna(
+        subset=["Year", "StoreType", "Revenue"]
+    )
+
+    years = sorted(work["Year"].unique())
+
+    if len(years) < 2:
+        return _error(
+            name,
+            "At least two different years are needed to calculate growth."
+        )
+
+    first_year = years[0]
+    last_year = years[-1]
+
+    grouped = work.groupby(
+        ["StoreType", "Year"]
+    )["Revenue"].sum().unstack(fill_value=0)
+
+    results = {}
+    caveats = []
+
+    for channel in grouped.index:
+        start = float(grouped.loc[channel, first_year])
+        end = float(grouped.loc[channel, last_year])
+
+        if start == 0:
+            growth = None
+            caveats.append(
+                f"{channel}: growth cannot be calculated because "
+                "starting revenue is zero."
+            )
+        else:
+            growth = round((end - start) / start * 100, 2)
+
+        results[str(channel)] = {
+            "starting_revenue": start,
+            "ending_revenue": end,
+            "growth_percentage": growth,
+        }
+
+    return ToolResult(
+        tool=name,
+        value={
+            "first_year": int(first_year),
+            "last_year": int(last_year),
+            "channels": results,
+        },
+        definition=(
+            f"Revenue growth by sales channel from "
+            f"{int(first_year)} to {int(last_year)}"
+        ),
+        scope={"years": [int(first_year), int(last_year)]},
+        rows_used=len(work),
+        caveats=caveats,
+    )
+
+
+
 
 
 def data_quality_report(df: pd.DataFrame) -> ToolResult:

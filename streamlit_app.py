@@ -587,7 +587,8 @@ with tab_dash:
 
             st.altair_chart(monthly_chart, use_container_width=True)
 
-                       # Revenue by category
+                       
+            # Revenue by category
             st.subheader("Revenue by category")
 
             by_category = (
@@ -599,6 +600,13 @@ with tab_dash:
             category_chart_data = (
                 by_category.rename_axis("Category")
                 .reset_index(name="Revenue")
+            )
+
+            # Highlight the bar when the user hovers over it
+            highlight = alt.selection_point(
+                fields=["Category"],
+                on="pointerover",
+                empty=True
             )
 
             category_chart = alt.Chart(category_chart_data).mark_bar(
@@ -618,12 +626,20 @@ with tab_dash:
                     scale=alt.Scale(domainMin=0),
                     axis=alt.Axis(format="$,.0f")
                 ),
-                color=alt.value("#789080"),
+                color=alt.condition(
+                    highlight,
+                    alt.value("#789080"),
+                    alt.value("#D9E1DC")
+                ),
                 tooltip=[
                     alt.Tooltip("Category:N", title="Category"),
                     alt.Tooltip("Revenue:Q", title="Revenue", format="$,.0f")
                 ]
-            ).properties(height=350)
+            ).properties(
+                height=350
+            ).add_params(
+                highlight
+            )
 
             st.altair_chart(category_chart, use_container_width=True)
 

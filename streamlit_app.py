@@ -510,7 +510,8 @@ with tab_dash:
             st.altair_chart(store_chart, use_container_width=True)
 
            
-                        # Percentage of revenue by month
+                        
+            # Percentage of revenue by month
             st.subheader("Percentage of annual revenue by month")
 
             monthly_data = filtered.copy()
@@ -541,6 +542,13 @@ with tab_dash:
                 + monthly["Month name"]
             )
 
+            # Highlight the bar when the user hovers over it
+            highlight = alt.selection_point(
+                fields=["Month name"],
+                on="pointerover",
+                empty=True
+            )
+
             monthly_chart = alt.Chart(monthly).mark_bar(
                 cornerRadiusTopLeft=5,
                 cornerRadiusTopRight=5,
@@ -558,7 +566,11 @@ with tab_dash:
                     axis=alt.Axis(labelExpr="datum.value + '%'"),
                     scale=alt.Scale(domainMin=0)
                 ),
-                color=alt.value("#789080"),
+                color=alt.condition(
+                    highlight,
+                    alt.value("#789080"),
+                    alt.value("#D9E1DC")
+                ),
                 tooltip=[
                     alt.Tooltip("Month name:N", title="Month"),
                     alt.Tooltip(
@@ -567,7 +579,11 @@ with tab_dash:
                         format=".1f"
                     )
                 ]
-            ).properties(height=350)
+            ).properties(
+                height=350
+            ).add_params(
+                highlight
+            )
 
             st.altair_chart(monthly_chart, use_container_width=True)
 

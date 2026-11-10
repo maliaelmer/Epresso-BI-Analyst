@@ -66,6 +66,10 @@ def run_tool(name: str, args: dict, df, log: list) -> ToolResult:
 def rules_router(question: str, df):
     """Choose an approved analytical tool based on the question."""
     q = question.lower()
+    if any(w in q for w in ('growth', 'grew', 'increased', 'increase')) and any(
+        w in q for w in ('channel', 'store type', 'storetype')
+    ):
+        return 'revenue_growth_by_channel', {}
 
     if any(w in q for w in ('missing', 'duplicate', 'quality', 'blank')):
         return 'data_quality_report', {}

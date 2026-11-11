@@ -716,7 +716,7 @@ with tab_survey:
         how="left"
     )
 
-    st.subheader("Customer Satisfaction and Revenue by ")
+    st.subheader("Customer Satisfaction vs. Revenue by Location ")
 
     location_analysis = (
         survey_data.groupby("Location", as_index=False)

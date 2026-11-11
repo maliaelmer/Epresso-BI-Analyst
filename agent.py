@@ -81,12 +81,11 @@ def rules_router(question: str, df):
     q = question.lower()
     filters = {}
 
-    if 'Location' in df.columns:
-        for location in df['Location'].dropna().unique():
-            if str(location).lower() in [
-                word.strip('.,?!') for word in q.split()
-            ]:
-                filters['Location'] = location
+    if filters:
+        return 'get_total', {
+            'value_col': 'Revenue',
+            'filters': filters
+        }
 
     if 'Year' in df.columns:
         for year in df['Year'].dropna().unique():

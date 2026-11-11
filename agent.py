@@ -40,10 +40,10 @@ UNSUPPORTED = ('I can only answer questions that my approved analytical function
                'calculate from the loaded data: ' + ', '.join(TOOLS) + '. '
                'I cannot answer that one.')
 
-# For when you add a language model: keep these rules in the system prompt.
+# For when you add a language model: keep these  in the system prompt.
 SYSTEM_PROMPT = """You are an analytical assistant for E-Presso managers.
 
-Rules:
+:
 - Only state numbers that appear in a tool result. Never estimate or recall figures.
 - Always call a tool before making a numerical claim.
 - State the scope (which period and data) of every answer.
@@ -79,6 +79,22 @@ def run_tool(name: str, args: dict, df, log: list) -> ToolResult:
 def rules_router(question: str, df):
     """Choose an approved analytical tool based on the question."""
     q = question.lower()
+    filters = {}
+
+    if 'Location' in df.columns:
+        for location in df['Location'].dropna().unique():
+            if str(location).lower() in [
+                word.strip('.,?!') for word in q.split()
+            ]:
+                filters['Location'] = location
+
+    if 'Year' in df.columns:
+        for year in df['Year'].dropna().unique():
+            if str(int(year)) in [
+                word.strip('.,?!') for word in q.split()
+            ]:
+                filters['Year'] = int(year)
+                
     if any(w in q for w in ('growth', 'grew', 'increased', 'increase')) and any(
         w in q for w in ('channel', 'store type', 'storetype')
     ):

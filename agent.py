@@ -111,6 +111,17 @@ def rules_router(question: str, df):
             'filters': {}
         }
 
+    if 'Location' in df.columns:
+        for location in df['Location'].dropna().unique():
+            if any(
+                word.strip('.,?!') == str(location).lower()
+                for word in q.split()
+            ):
+                return 'get_total', {
+                    'value_col': 'Revenue',
+                    'filters': {'Location': location}
+                }
+                
     if any(w in q for w in ('revenue', 'sales', 'total', 'sum')):
         return 'get_total', {
             'value_col': 'Revenue',

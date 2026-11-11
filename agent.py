@@ -53,10 +53,10 @@ SYSTEM_PROMPT = """You are an analytical assistant for E-Presso managers.
 - Never ask for, run, or write code. Never modify data.
 
 Tool selection:
-- For questions about total revenue, total sales, or revenue by sales channel, use get_total or group_total as appropriate.
-- For questions asking to compare revenue between sales channels, use group_total with StoreType as the group column.
+- For questions about  revenue,  sales, or revenue by sales channel, use get_ or group_ as appropriate.
+- For questions asking to compare revenue between sales channels, use group_ with StoreType as the group column.
 - Use revenue_growth_by_channel ONLY when the question explicitly asks about revenue growth, percentage growth, or change over time by sales channel.
-- Never use revenue_growth_by_channel to answer a question asking which channel generated the highest total revenue.
+- Never use revenue_growth_by_channel to answer a question asking which channel generated the highest  revenue.
 - For missing values, duplicate rows, or data quality, use data_quality_report.
 - For revenue by year, use group_total with Year as the group column.
 """
@@ -80,6 +80,17 @@ def rules_router(question: str, df):
     """Choose an approved analytical tool based on the question."""
     q = question.lower()
     filters = {}
+    words = [word.strip('.,?!') for word in q.split()]
+
+    if 'Location' in df.columns:
+        for location in df['Location'].dropna().unique():
+            if str(location).lower() in words:
+                filters['Location'] = location
+
+    if 'Year' in df.columns:
+        for year in df['Year'].dropna().unique():
+            if str(int(year)) in words:
+                filters['Year'] = int(year)
 
     if filters:
         return 'get_total', {
@@ -87,13 +98,6 @@ def rules_router(question: str, df):
             'filters': filters
         }
 
-    if 'Year' in df.columns:
-        for year in df['Year'].dropna().unique():
-            if str(int(year)) in [
-                word.strip('.,?!') for word in q.split()
-            ]:
-                filters['Year'] = int(year)
-                
     if any(w in q for w in ('growth', 'grew', 'increased', 'increase')) and any(
         w in q for w in ('channel', 'store type', 'storetype')
     ):
@@ -126,17 +130,6 @@ def rules_router(question: str, df):
             'filters': {}
         }
 
-    if 'Location' in df.columns:
-        for location in df['Location'].dropna().unique():
-            if any(
-                word.strip('.,?!') == str(location).lower()
-                for word in q.split()
-            ):
-                return 'get_total', {
-                    'value_col': 'Revenue',
-                    'filters': {'Location': location}
-                }
-                
     if any(w in q for w in ('revenue', 'sales', 'total', 'sum')):
         return 'get_total', {
             'value_col': 'Revenue',
@@ -144,7 +137,6 @@ def rules_router(question: str, df):
         }
 
     return None
-
 def llm_router(question: str, df):
     """Ask  to select one approved analytical tool."""
     try:

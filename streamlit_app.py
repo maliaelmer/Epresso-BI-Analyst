@@ -880,11 +880,12 @@ with tab_assistant:
                 tables["categories"],
             )
 
-            answer = agent.answer_question(
-                question,
-                assistant_sales,
-                mode="rules" if answer_mode == "Data-based" else "llm",
-            )
+answer = agent.answer_question(
+    question,
+    assistant_sales,
+    mode="rules" if answer_mode == "Data-based" else "llm",
+    survey_df=survey_data,
+)
 
             st.session_state["history"].append({
                 "question": question,

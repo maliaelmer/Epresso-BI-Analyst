@@ -102,8 +102,16 @@ def rules_router(question: str, df):
     if any(w in q for w in (
         'satisfaction', 'satisfied', 'customer experience'
     )):
-        
-        return 'get_average_satisfaction', {}
+        satisfaction_filters = {}
+
+        if 'Location' in df.columns:
+            for location in df['Location'].dropna().unique():
+                if str(location).lower() in q.split():
+                    satisfaction_filters['Location'] = location
+
+        return 'get_average_satisfaction', {
+            'filters': satisfaction_filters
+        }
     words = [word.strip('.,?!') for word in q.split()]
 
     if 'Location' in df.columns:

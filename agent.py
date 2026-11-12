@@ -36,7 +36,7 @@ TOOLS = {
     },
     'get_average_satisfaction': {
         'fn': analytics.get_average_satisfaction,
-        'params': set(),
+        'params': {'filters'},
         'description': (
             'Calculate average customer satisfaction overall '
             'and by geographic region using survey data.'

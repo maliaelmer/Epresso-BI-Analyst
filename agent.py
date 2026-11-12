@@ -266,6 +266,7 @@ def llm_router(question: str, df):
 
 
 
+
 def format_findings(result: ToolResult) -> str:
     if result.error:
         return f'The request could not be completed: {result.error}'
@@ -294,7 +295,7 @@ def format_findings(result: ToolResult) -> str:
 
         return "\n".join(lines) + f"\nRows used: {result.rows_used}"
 
-        if result.tool == 'get_average_satisfaction':
+    if result.tool == 'get_average_satisfaction':
         value = result.value
         by_location = value.get('by_location', {})
 

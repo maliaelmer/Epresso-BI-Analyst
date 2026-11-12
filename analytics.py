@@ -307,20 +307,46 @@ def data_quality_report(df: pd.DataFrame) -> ToolResult:
         caveats=caveats,
     )
 
-def get_average_satisfaction(df: pd.DataFrame) -> ToolResult:
-    """Calculate average customer satisfaction overall and by region."""
+def get_average_satisfaction(
+    df: pd.DataFrame,
+    filters: dict | None = None
+) -> ToolResult:
+    """Calculate average customer satisfaction overall or by region."""
+
+    filters = filters or {}
 
     if df.empty or "Satisfaction" not in df.columns:
         return ToolResult(
             tool="get_average_satisfaction",
             value={},
             definition="Average customer satisfaction",
-            scope={"filters": "none (full survey table)"},
+            scope={"filters": filters or "none (full survey table)"},
             rows_used=0,
             caveats=["No customer satisfaction data is available."],
         )
 
     satisfaction = df.dropna(subset=["Satisfaction"])
+
+    if "Location" in filters:
+        location = str(filters["Location"]).strip().casefold()
+        satisfaction = satisfaction[
+            satisfaction["Location"].astype(str).str.strip().str.casefold()
+            == location
+        ]
+
+    if satisfaction.empty:
+        return ToolResult(
+            tool="get_average_satisfaction",
+            value={
+                "overall_average": None,
+                "by_location": {},
+                "location_filter": filters.get("Location"),
+            },
+            definition="Average customer satisfaction on a 0–5 scale",
+            scope={"filters": filters},
+            rows_used=0,
+            caveats=["No customer satisfaction data is available for this region."],
+        )
 
     overall_average = float(satisfaction["Satisfaction"].mean())
 
@@ -338,12 +364,12 @@ def get_average_satisfaction(df: pd.DataFrame) -> ToolResult:
         value={
             "overall_average": round(overall_average, 2),
             "by_location": by_location,
+            "location_filter": filters.get("Location"),
         },
         definition="Average customer satisfaction on a 0–5 scale",
-        scope={"filters": "none (full survey table)"},
+        scope={"filters": filters or "none (full survey table)"},
         rows_used=len(satisfaction),
     )
-
 
 # ------------------------------------------------------------ merge check
 

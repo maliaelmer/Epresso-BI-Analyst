@@ -765,11 +765,23 @@ with tab_survey:
                 "Label": ["Overall Average"]
             })
         ).mark_rule(
-            color="#D55E00",
             strokeDash=[8, 4],
             strokeWidth=3.5
         ).encode(
             x=alt.X("Overall Average:Q"),
+            color=alt.Color(
+                "Label:N",
+                title=None,
+                scale=alt.Scale(
+                    domain=["Overall Average"],
+                    range=["#D55E00"]
+                ),
+                legend=alt.Legend(
+                    orient="top",
+                    symbolType="stroke",
+                    symbolStrokeWidth=3
+                )
+            ),
             tooltip=[
                 alt.Tooltip("Label:N"),
                 alt.Tooltip("Overall Average:Q", format=".2f")

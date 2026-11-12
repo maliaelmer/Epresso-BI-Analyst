@@ -230,13 +230,32 @@ def llm_router(question: str, df):
                 parameters_json_schema={"type": "object"},
             ),
 
-            types.FunctionDeclaration(
+                        types.FunctionDeclaration(
                 name="get_average_satisfaction",
                 description=(
                     "Calculate average customer satisfaction overall "
-                    "and by geographic region using survey data."
+                    "or filtered by a specific geographic region."
                 ),
-                parameters_json_schema={"type": "object"},
+                parameters_json_schema={
+                    "type": "object",
+                    "properties": {
+                        "filters": {
+                            "type": "object",
+                            "properties": {
+                                "Location": {
+                                    "type": "string",
+                                    "enum": [
+                                        "East",
+                                        "Midwest",
+                                        "South",
+                                        "Southwest",
+                                        "West",
+                                    ],
+                                }
+                            },
+                        }
+                    },
+                },
             ),
         ]
 

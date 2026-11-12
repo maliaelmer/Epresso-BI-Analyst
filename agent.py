@@ -34,6 +34,14 @@ TOOLS = {
         'params': set(),
         'description': 'Report duplicates and missing values in the loaded data.',
     },
+    'get_average_satisfaction': {
+        'fn': analytics.get_average_satisfaction,
+        'params': set(),
+        'description': (
+            'Calculate average customer satisfaction overall '
+            'and by geographic region using survey data.'
+        ),
+    },
 }
 
 UNSUPPORTED = ('I can only answer questions that my approved analytical functions can '

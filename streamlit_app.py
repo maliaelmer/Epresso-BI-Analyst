@@ -794,11 +794,6 @@ with tab_survey:
 
         st.altair_chart(survey_chart, use_container_width=True)
 
-        st.caption(
-            f"Dashed line = overall average satisfaction "
-            f"({overall_average:.2f} out of 5)."
-        )
-
     else:
         st.info("No customer satisfaction data is available.")
 

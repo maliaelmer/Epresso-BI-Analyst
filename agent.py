@@ -96,6 +96,12 @@ def rules_router(question: str, df):
     """Choose an approved analytical tool based on the question."""
     q = question.lower()
     filters = {}
+       
+    if any(w in q for w in (
+        'satisfaction', 'satisfied', 'customer experience'
+    )):
+        
+        return 'get_average_satisfaction', {}
     words = [word.strip('.,?!') for word in q.split()]
 
     if 'Location' in df.columns:

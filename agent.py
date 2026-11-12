@@ -284,7 +284,7 @@ def answer_question(question: str, df, mode: str = 'rules', survey_df=None) -> d
         return {'scope': 'n/a', 'findings': UNSUPPORTED, 'interpretation': '',
                 'next_steps': '', 'tool_log': log}
     name, args = routed
-    result = run_tool(name, args, df, log)
+    result = run_tool(name, args, df, log, survey_df)
     interpretation = ' '.join(result.caveats)
 
     if result.tool == 'revenue_growth_by_channel' and not result.error:

@@ -21,7 +21,7 @@ The application may take a moment to start.
    - Support_EX_B_Survey.xlsx
 3. Explore the **Data and profile** tab to review the tables, missing values and data types.
 4. Use the **Dashboard** tab to filter revenue by year, category and store type.
-5. Explore customer satisfaction and revenue in the **Survey Analysis** tab.
+5. Explore average customer satisfaction by region and compare each region against the overall average in the **Survey Analysis** tab.
 6. Ask business questions in the **Assistant** tab.
 
 The survey data is read from the worksheet named `Survey Results`, with its column headings starting on row 3.

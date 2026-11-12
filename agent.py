@@ -364,6 +364,18 @@ def format_findings(result: ToolResult) -> str:
 
 def answer_question(question: str, df, mode: str = 'rules', survey_df=None) -> dict:
     log: list = []
+    if 'profit' in question.lower():
+        return {
+            'scope': 'n/a',
+            'findings': (
+                'Profit cannot be calculated with the available '
+                'analytical tools. The assistant currently supports '
+                'revenue calculations, not profit calculations.'
+            ),
+            'interpretation': '',
+            'next_steps': '',
+            'tool_log': log,
+        }
     if mode == 'rules':
         routed = rules_router(question, df)
     else:

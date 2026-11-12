@@ -274,7 +274,7 @@ def format_findings(result: ToolResult) -> str:
 
 
 
-def answer_question(question: str, df, mode: str = 'rules') -> dict:
+def answer_question(question: str, df, mode: str = 'rules', survey_df=None) -> dict:
     log: list = []
     if mode == 'rules':
         routed = rules_router(question, df)

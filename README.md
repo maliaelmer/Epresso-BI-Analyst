@@ -63,18 +63,24 @@ Revenue is not profit. The data does not provide the costs needed to calculate p
 
 ## Assistant
 
-The application uses **Option B: a rules-based assistant**, not a live language-model agent.
+The application includes two answer modes:
 
-The assistant can select from three approved analytical tools:
+- **Data-based:** Uses predefined rules to select the appropriate analytical function.
+- **Gemini-assisted:** Uses Google's Gemini model to interpret the question and select an approved analytical function.
+
+Both modes use Python functions to perform the actual calculations. Gemini helps interpret the question and choose the tool; it does not calculate or invent business figures.
+
+The assistant can select from four approved analytical tools:
 
 | Tool | Purpose |
 |---|---|
-| `get_total` | Calculates a total, such as total revenue |
+| `get_total` | Calculates totals, such as total revenue, with optional filters |
 | `group_total` | Groups revenue by year, store type or category |
+| `revenue_growth_by_channel` | Calculates revenue growth by sales channel |
 | `data_quality_report` | Checks missing values and duplicate rows |
 
 The assistant:
-- Uses prepared sales data from the current uploads.
+- Uses prepared sales data from the uploaded files.
 - Selects from a fixed list of approved tools.
 - Validates tool names and arguments.
 - Displays a tool-call log.
@@ -83,6 +89,7 @@ The assistant:
 
 It cannot execute arbitrary Python code, generate SQL queries or access unapproved analytical functions.
 
+The Gemini API key is stored securely in Streamlit secrets and is not included in the GitHub repository.
 ## Validation
 
 The application was compared against the provided Power BI report.

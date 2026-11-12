@@ -766,8 +766,8 @@ with tab_survey:
             })
         ).mark_rule(
             color="#D55E00",
-            strokeDash=[6, 4],
-            strokeWidth=2
+            strokeDash=[8, 4],
+            strokeWidth=3.5
         ).encode(
             x=alt.X("Overall Average:Q"),
             tooltip=[

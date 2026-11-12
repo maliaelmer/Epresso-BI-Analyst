@@ -760,15 +760,22 @@ with tab_survey:
         )
 
         benchmark = alt.Chart(
-            pd.DataFrame({"Overall average": [overall_average]})
+            pd.DataFrame({
+                "Overall Average": [overall_average],
+                "Label": ["Overall Average"]
+            })
         ).mark_rule(
             color="#D55E00",
             strokeDash=[6, 4],
             strokeWidth=2
         ).encode(
-            x="Overall average:Q"
+            x=alt.X("Overall Average:Q"),
+            tooltip=[
+                alt.Tooltip("Label:N"),
+                alt.Tooltip("Overall Average:Q", format=".2f")
+            ]
         )
-
+        
         survey_chart = (satisfaction_bars + benchmark).properties(
             height=300
         )

@@ -171,16 +171,24 @@ def llm_router(question: str, df):
         all_columns = df.columns.tolist()
 
         declarations = [
-            types.FunctionDeclaration(
+        types.FunctionDeclaration(
                 name="get_total",
-                description="Calculate the sum of a numeric column.",
+                description=(
+                    "Calculate the sum of a numeric column, optionally "
+                    "filtered by Year, Location, or other categorical columns."
+                ),
                 parameters_json_schema={
                     "type": "object",
                     "properties": {
                         "value_col": {
                             "type": "string",
                             "enum": numeric_columns,
-                        }
+                        },
+                        "filters": {
+                            "type": "object",
+                            "description": "Optional column filters, such as Year: 2029 or Location: East.",
+                            "additionalProperties": True,
+                        },
                     },
                     "required": ["value_col"],
                 },

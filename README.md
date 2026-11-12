@@ -70,7 +70,7 @@ The application includes two answer modes:
 
 Both modes use Python functions to perform the actual calculations. Gemini helps interpret the question and choose the tool; it does not calculate or invent business figures.
 
-The assistant can select from four approved analytical tools:
+The assistant can select from five approved analytical tools:
 
 | Tool | Purpose |
 |---|---|
@@ -78,18 +78,22 @@ The assistant can select from four approved analytical tools:
 | `group_total` | Groups revenue by year, store type or category |
 | `revenue_growth_by_channel` | Calculates revenue growth by sales channel |
 | `data_quality_report` | Checks missing values and duplicate rows |
+| `get_average_satisfaction` | Calculates average customer satisfaction overall or by geographic region, with optional region filtering |
 
 The assistant:
-- Uses prepared sales data from the uploaded files.
+- Uses prepared sales and survey data from the uploaded files.
 - Selects from a fixed list of approved tools.
 - Validates tool names and arguments.
 - Displays a tool-call log.
-- Provides scope, findings, interpretation and next steps.
+- Provides scope, findings and interpretation.
+- Identifies the regions with the highest and lowest customer satisfaction.
+- Rejects unsupported profit questions instead of incorrectly reporting revenue as profit.
 - Allows a maximum of 15 questions per session.
 
 It cannot execute arbitrary Python code, generate SQL queries or access unapproved analytical functions.
 
 The Gemini API key is stored securely in Streamlit secrets and is not included in the GitHub repository.
+
 ## Validation
 
 The application was compared against the provided Power BI report.

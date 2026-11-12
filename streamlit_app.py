@@ -719,7 +719,7 @@ with tab_survey:
 
 st.subheader("Customer Satisfaction vs. Average Revenue per Store")
 
-    store_analysis = (
+store_analysis = (
         survey_data.groupby(["Store ID", "Location"], as_index=False)
         .agg(
             Average_Satisfaction=("Satisfaction", "mean"),

@@ -70,7 +70,7 @@ Tool selection:
 """
 
 
-def run_tool(name: str, args: dict, df, log: list) -> ToolResult:
+def run_tool(name: str, args: dict, df, log: list, survey_df=None) -> ToolResult:
     """The dispatcher: validate the request, run the function, log the call."""
     if name not in TOOLS:
         result = analytics._error(name, f'Unknown tool: {name}')
@@ -79,11 +79,19 @@ def run_tool(name: str, args: dict, df, log: list) -> ToolResult:
         if unexpected:
             result = analytics._error(name, f'Unexpected argument(s): {sorted(unexpected)}')
         else:
-            result = TOOLS[name]['fn'](df, **args)
+            data = survey_df if name == 'get_average_satisfaction' else df
+
+            if data is None:
+                result = analytics._error(
+                    name,
+                    'Survey data is not available.'
+                )
+            else:
+                result = TOOLS[name]['fn'](data, **args)
+
     log.append({'tool': name, 'arguments': args, 'result': result.to_dict()})
     return result
-
-
+    
 def rules_router(question: str, df):
     """Choose an approved analytical tool based on the question."""
     q = question.lower()

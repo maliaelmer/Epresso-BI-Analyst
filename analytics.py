@@ -307,6 +307,43 @@ def data_quality_report(df: pd.DataFrame) -> ToolResult:
         caveats=caveats,
     )
 
+def get_average_satisfaction(df: pd.DataFrame) -> ToolResult:
+    """Calculate average customer satisfaction overall and by region."""
+
+    if df.empty or "Satisfaction" not in df.columns:
+        return ToolResult(
+            tool="get_average_satisfaction",
+            value={},
+            definition="Average customer satisfaction",
+            scope={"filters": "none (full survey table)"},
+            rows_used=0,
+            caveats=["No customer satisfaction data is available."],
+        )
+
+    satisfaction = df.dropna(subset=["Satisfaction"])
+
+    overall_average = float(satisfaction["Satisfaction"].mean())
+
+    by_location = {}
+    if "Location" in satisfaction.columns:
+        by_location = (
+            satisfaction.groupby("Location")["Satisfaction"]
+            .agg(["mean", "count"])
+            .round(2)
+            .to_dict("index")
+        )
+
+    return ToolResult(
+        tool="get_average_satisfaction",
+        value={
+            "overall_average": round(overall_average, 2),
+            "by_location": by_location,
+        },
+        definition="Average customer satisfaction on a 0–5 scale",
+        scope={"filters": "none (full survey table)"},
+        rows_used=len(satisfaction),
+    )
+
 
 # ------------------------------------------------------------ merge check
 

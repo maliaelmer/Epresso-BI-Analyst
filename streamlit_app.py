@@ -717,76 +717,68 @@ with tab_survey:
     )
 
 
-    st.subheader("Customer Satisfaction vs. Average Revenue per Store")
 
-    store_analysis = (
-        survey_data.groupby(["Store ID", "Location"], as_index=False)
-        .agg(
-            Average_Satisfaction=("Satisfaction", "mean"),
-            Total_Revenue=("Revenue", "sum")
-        )
-    )
+    st.subheader("Customer Satisfaction by Region")
 
     location_analysis = (
-        store_analysis.groupby("Location", as_index=False)
+        survey_data.groupby("Location", as_index=False)
         .agg(
-            Average_Satisfaction=("Average_Satisfaction", "mean"),
-            Average_Revenue_Per_Store=("Total_Revenue", "mean")
+            Average_Satisfaction=("Satisfaction", "mean"),
+            Survey_Responses=("Satisfaction", "count"),
+            Stores=("Store ID", "nunique")
         )
-        .dropna(subset=["Average_Satisfaction", "Average_Revenue_Per_Store"])
+        .dropna(subset=["Average_Satisfaction"])
     )
 
     if not location_analysis.empty:
 
-        highlight = alt.selection_point(
-            fields=["Location"],
-            on="pointerover",
-            empty=True
-        )
+        overall_average = survey_data["Satisfaction"].mean()
 
-        survey_chart = alt.Chart(location_analysis).mark_circle(
-            size=180,
-            stroke="#30251F",
-            strokeWidth=1
+        satisfaction_bars = alt.Chart(location_analysis).mark_bar(
+            cornerRadiusEnd=5,
+            color="#26856A"
         ).encode(
             x=alt.X(
                 "Average_Satisfaction:Q",
-                title="Customer satisfaction (0–5)",
+                title="Average customer satisfaction (0–5)",
                 scale=alt.Scale(domain=[0, 5])
             ),
             y=alt.Y(
-                "Average_Revenue_Per_Store:Q",
-                title="Average revenue per store ($)",
-                scale=alt.Scale(domainMin=0),
-                axis=alt.Axis(format="$,.0f")
-            ),
-            color=alt.condition(
-                highlight,
-                alt.Color(
-                    "Location:N",
-                    title="Location",
-                    scale=alt.Scale(
-                        range=["#009E73", "#E69F00", "#D55E00", "#0072B2", "#CC79A7"]
-                    ),
-                    legend=alt.Legend(
-                        symbolSize=180,
-                        symbolStrokeWidth=1.5
-                    )
-                ),
-                alt.value("#D9E1DC")
+                "Location:N",
+                title="Region",
+                sort=alt.SortField(
+                    field="Average_Satisfaction",
+                    order="descending"
+                )
             ),
             tooltip=[
-                alt.Tooltip("Location:N", title="Location"),
-                alt.Tooltip("Average_Satisfaction:Q", title="Satisfaction", format=".2f"),
-                alt.Tooltip("Average_Revenue_Per_Store:Q", title="Average revenue per store", format="$,.0f")
+                alt.Tooltip("Location:N", title="Region"),
+                alt.Tooltip("Average_Satisfaction:Q", title="Average satisfaction", format=".2f"),
+                alt.Tooltip("Survey_Responses:Q", title="Survey responses"),
+                alt.Tooltip("Stores:Q", title="Number of stores")
             ]
-        ).properties(
-            height=350
-        ).add_params(
-            highlight
+        )
+
+        benchmark = alt.Chart(
+            pd.DataFrame({"Overall average": [overall_average]})
+        ).mark_rule(
+            color="#D55E00",
+            strokeDash=[6, 4],
+            strokeWidth=2
+        ).encode(
+            x="Overall average:Q"
+        )
+
+        survey_chart = (satisfaction_bars + benchmark).properties(
+            height=300
         )
 
         st.altair_chart(survey_chart, use_container_width=True)
+
+        st.caption(
+            f"Dashed line = overall average satisfaction "
+            f"({overall_average:.2f} out of 5)."
+        )
 
     else:
         st.info("No customer satisfaction data is available.")

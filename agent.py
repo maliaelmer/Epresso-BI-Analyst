@@ -212,7 +212,18 @@ def llm_router(question: str, df):
                 description="Report missing values and duplicate rows.",
                 parameters_json_schema={"type": "object"},
             ),
+
+            types.FunctionDeclaration(
+                name="get_average_satisfaction",
+                description=(
+                    "Calculate average customer satisfaction overall "
+                    "and by geographic region using survey data."
+                ),
+                parameters_json_schema={"type": "object"},
+            ),
         ]
+
+            
 
         tool = types.Tool(function_declarations=declarations)
 

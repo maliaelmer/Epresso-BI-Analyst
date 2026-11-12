@@ -294,6 +294,39 @@ def format_findings(result: ToolResult) -> str:
 
         return "\n".join(lines) + f"\nRows used: {result.rows_used}"
 
+        if result.tool == 'get_average_satisfaction':
+        value = result.value
+        by_location = value.get('by_location', {})
+
+        lines = [
+            f"Overall average customer satisfaction: "
+            f"{value['overall_average']:.2f}/5."
+        ]
+
+        if by_location:
+            highest_region = max(
+                by_location,
+                key=lambda location: by_location[location]['mean']
+            )
+
+            highest_score = by_location[highest_region]['mean']
+            responses = by_location[highest_region]['count']
+
+            lines.append(
+                f"Highest customer satisfaction: {highest_region} "
+                f"({highest_score:.2f}/5, {responses} responses)."
+            )
+
+            lines.append("Average satisfaction by region:")
+
+            for location, data in by_location.items():
+                lines.append(
+                    f"{location}: {data['mean']:.2f}/5 "
+                    f"({data['count']} responses)"
+                )
+
+        return "\n".join(lines) + f"\nRows used: {result.rows_used}"
+
     return (
         f'{result.definition}: {result.value} '
         f'(rows used: {result.rows_used})'

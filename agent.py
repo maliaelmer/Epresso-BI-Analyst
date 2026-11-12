@@ -67,7 +67,8 @@ Tool selection:
 - Never use revenue_growth_by_channel to answer a question asking which channel generated the highest  revenue.
 - For missing values, duplicate rows, or data quality, use data_quality_report.
 - For questions about average customer satisfaction, satisfaction by region, or customer experience, use get_average_satisfaction. Never use data_quality_report for these questions.
-- For revenue by year, use group_total with Year as the group column.
+- If the question asks for revenue in one specific year, use get_total with Year as a filter.
+- If the question asks for revenue across multiple years or by year, use group_total with Year as the group column.
 """
 
 

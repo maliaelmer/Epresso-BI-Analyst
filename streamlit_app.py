@@ -716,20 +716,28 @@ with tab_survey:
         how="left"
     )
 
-    st.subheader("Customer Satisfaction vs. Revenue by Location ")
 
-    location_analysis = (
-        survey_data.groupby("Location", as_index=False)
+st.subheader("Customer Satisfaction vs. Average Revenue per Store")
+
+    store_analysis = (
+        survey_data.groupby(["Store ID", "Location"], as_index=False)
         .agg(
             Average_Satisfaction=("Satisfaction", "mean"),
-            Revenue=("Revenue", "sum")
+            Total_Revenue=("Revenue", "sum")
         )
-        .dropna(subset=["Average_Satisfaction"])
+    )
+
+    location_analysis = (
+        store_analysis.groupby("Location", as_index=False)
+        .agg(
+            Average_Satisfaction=("Average_Satisfaction", "mean"),
+            Average_Revenue_Per_Store=("Total_Revenue", "mean")
+        )
+        .dropna(subset=["Average_Satisfaction", "Average_Revenue_Per_Store"])
     )
 
     if not location_analysis.empty:
 
-        # Highlight the location when the user hovers over it
         highlight = alt.selection_point(
             fields=["Location"],
             on="pointerover",
@@ -747,12 +755,11 @@ with tab_survey:
                 scale=alt.Scale(domain=[0, 5])
             ),
             y=alt.Y(
-                "Revenue:Q",
-                title="Revenue ($)",
+                "Average_Revenue_Per_Store:Q",
+                title="Average revenue per store ($)",
                 scale=alt.Scale(domainMin=0),
                 axis=alt.Axis(format="$,.0f")
             ),
-            
             color=alt.condition(
                 highlight,
                 alt.Color(
@@ -771,7 +778,7 @@ with tab_survey:
             tooltip=[
                 alt.Tooltip("Location:N", title="Location"),
                 alt.Tooltip("Average_Satisfaction:Q", title="Satisfaction", format=".2f"),
-                alt.Tooltip("Revenue:Q", title="Revenue", format="$,.0f")
+                alt.Tooltip("Average_Revenue_Per_Store:Q", title="Average revenue per store", format="$,.0f")
             ]
         ).properties(
             height=350

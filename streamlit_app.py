@@ -727,7 +727,7 @@ store_analysis = (
         )
     )
 
-    location_analysis = (
+location_analysis = (
         store_analysis.groupby("Location", as_index=False)
         .agg(
             Average_Satisfaction=("Average_Satisfaction", "mean"),

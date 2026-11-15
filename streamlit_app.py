@@ -216,14 +216,23 @@ with st.sidebar:
 
     st.markdown("""
     <style>
-    [data-testid="stFileUploaderFileName"] {
+    /* Uploaded file card */
+    [data-testid="stFileUploaderFile"] {
+        background-color: #F0E7DD !important;
+        border: 1px solid #C8B5A5 !important;
+        border-radius: 10px !important;
+    }
+
+    /* All text inside the uploaded file card */
+    [data-testid="stFileUploaderFile"] * {
         color: #29211D !important;
         opacity: 1 !important;
         font-weight: 600 !important;
     }
 
+    /* File uploader instructions */
     [data-testid="stFileUploader"] small {
-        color: #5A4A40 !important;
+        color: #FFFFFF !important;
         opacity: 1 !important;
     }
     </style>

@@ -440,6 +440,26 @@ def answer_question(question: str, df, mode: str = 'rules', survey_df=None) -> d
                 f"years cover equally complete periods. "
                 f"{interpretation}"
             )
+
+    if (
+        result.tool == 'group_total'
+        and not result.error
+        and result.definition == 'Sum of Revenue by StoreType'
+        and result.value
+    ):
+        best_channel = max(
+            result.value,
+            key=result.value.get
+        )
+        best_revenue = result.value[best_channel]
+
+        interpretation = (
+            f"{best_channel} generated the most total revenue, "
+            f"with ${best_revenue:,.0f}. "
+            f"This is a comparison of total revenue across "
+            f"sales channels. Revenue is not profit."
+        )
+
     return {
         'scope': (
             f"Full loaded dataset (independent of dashboard filters). "

@@ -216,17 +216,22 @@ with st.sidebar:
 
     st.markdown("""
     <style>
-    /* Force readable text throughout the uploader */
-    [data-testid="stFileUploader"] * {
-        color: #29211D !important;
-        -webkit-text-fill-color: #29211D !important;
+    /* Keep upload instructions white */
+    [data-testid="stFileUploader"] label,
+    [data-testid="stFileUploader"] label * {
+        color: #FFFFFF !important;
+        -webkit-text-fill-color: #FFFFFF !important;
         opacity: 1 !important;
     }
 
-    /* Make uploaded file details darker and clearer */
-    [data-testid="stFileUploader"] small,
-    [data-testid="stFileUploader"] span,
-    [data-testid="stFileUploader"] p {
+    /* Uploaded file card */
+    [data-testid="stFileUploaderFile"] {
+        background-color: #F0E7DD !important;
+        border: 1px solid #C8B5A5 !important;
+    }
+
+    /* Uploaded filename and file size */
+    [data-testid="stFileUploaderFile"] * {
         color: #29211D !important;
         -webkit-text-fill-color: #29211D !important;
         opacity: 1 !important;

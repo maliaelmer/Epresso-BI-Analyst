@@ -213,6 +213,22 @@ with st.sidebar:
         "The original data loads automatically. Upload a file only "
         "if you want to replace that table."
     )
+
+    st.markdown("""
+    <style>
+    [data-testid="stFileUploaderFileName"] {
+        color: #29211D !important;
+        opacity: 1 !important;
+        font-weight: 600 !important;
+    }
+
+    [data-testid="stFileUploader"] small {
+        color: #5A4A40 !important;
+        opacity: 1 !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
     uploaded_files = st.file_uploader(
         "Optional: upload files to replace original data",
         type=["csv", "txt", "tsv", "xlsx", "xls"],

@@ -377,7 +377,7 @@ def answer_question(question: str, df, mode: str = 'rules', survey_df=None) -> d
             'tool_log': log,
         }
 
-        q = question.lower()
+    q = question.lower()
 
     asks_about_causation = any(term in q for term in (
         'cause', 'causal', 'causation',

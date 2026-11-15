@@ -376,6 +376,34 @@ def answer_question(question: str, df, mode: str = 'rules', survey_df=None) -> d
             'next_steps': '',
             'tool_log': log,
         }
+
+        q = question.lower()
+
+    asks_about_causation = any(term in q for term in (
+        'cause', 'causal', 'causation',
+        'lead to', 'leads to', 'result in', 'results in'
+    ))
+
+    mentions_satisfaction = 'satisfaction' in q
+    mentions_revenue = 'revenue' in q
+
+    if asks_about_causation and mentions_satisfaction and mentions_revenue:
+        return {
+            'scope': 'n/a',
+            'findings': (
+                'The available data cannot establish whether higher '
+                'customer satisfaction causes higher revenue. The '
+                'assistant can calculate satisfaction averages and '
+                'revenue, but its analytical tools do not test a causal '
+                'relationship. Other factors may influence both.'
+            ),
+            'interpretation': (
+                'A relationship between two variables does not by itself '
+                'prove that one causes the other.'
+            ),
+            'next_steps': '',
+            'tool_log': log,
+        }
     if mode == 'rules':
         routed = rules_router(question, df)
     else:
